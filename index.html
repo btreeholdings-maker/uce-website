@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UCE — Universal Constraint Engine | Neuromorphic Computing Reimagined</title>
+    <meta name="description" content="The Universal Constraint Engine discovers emergent computational behaviors from simple constraint rules. Patent-pending neuromorphic architecture by Bee Tree Holdings LLC.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a2e;
+            --bg-card-hover: #22223a;
+            --accent-blue: #4ecdc4;
+            --accent-purple: #a78bfa;
+            --accent-orange: #f97316;
+            --accent-pink: #f472b6;
+            --accent-green: #34d399;
+            --text-primary: #f0f0f5;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+            --border: #2a2a3e;
+            --glow-blue: rgba(78, 205, 196, 0.15);
+            --glow-purple: rgba(167, 139, 250, 0.15);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* === NAVIGATION === */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--accent-blue);
+        }
+
+        .nav-logo { display: flex; flex-direction: column; line-height: 1.1; }
+        .nav-logo span { color: var(--text-muted); font-weight: 400; font-size: 0.65rem; letter-spacing: 0.05em; }
+
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--accent-blue); }
+
+        .nav-cta {
+            background: var(--accent-blue);
+            color: var(--bg-primary);
+            padding: 0.5rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px var(--glow-blue); }
+
+        /* === HERO === */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 50%, var(--glow-blue) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 50%, var(--glow-purple) 0%, transparent 50%);
+            animation: heroGlow 8s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes heroGlow {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+            100% { transform: translate(-5%, 5%) scale(1.1); opacity: 0.8; }
+        }
+
+        .hero-content { position: relative; z-index: 1; max-width: 900px; }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            color: var(--accent-blue);
+            font-weight: 500;
+            margin-bottom: 2rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .hero-badge .dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 .gradient {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-sub {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 650px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 0.25rem;
+        }
+
+        /* === CANVAS SECTION === */
+        #neuron-canvas {
+            width: 100%;
+            height: 400px;
+            position: relative;
+            z-index: 1;
+            margin-top: -2rem;
+        }
+
+        /* === SECTIONS === */
+        section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent-blue);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .section-desc {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin-bottom: 3rem;
+            line-height: 1.7;
+        }
+
+        /* === PROBLEM/SOLUTION === */
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .problem-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .problem-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+        }
+
+        .problem-card .icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .problem-card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .problem-card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* === QUANTITIES === */
+        .quantities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .quantity {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: default;
+        }
+
+        .quantity:hover {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 30px var(--glow-blue);
+            transform: translateY(-2px);
+        }
+
+        .quantity .symbol {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .quantity .name {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .q-E .symbol { color: var(--accent-blue); }
+        .q-I .symbol { color: var(--accent-pink); }
+        .q-T .symbol { color: var(--accent-orange); }
+        .q-F .symbol { color: #ef4444; }
+        .q-R .symbol { color: var(--accent-purple); }
+        .q-L .symbol { color: var(--accent-green); }
+        .q-P .symbol { color: #fbbf24; }
+
+        /* === EMERGENT BEHAVIORS === */
+        .behaviors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .behavior-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .behavior-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+
+        .behavior-card.memory::before { background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple)); }
+        .behavior-card.logic::before { background: linear-gradient(90deg, var(--accent-orange), #ef4444); }
+        .behavior-card.oscillator::before { background: linear-gradient(90deg, var(--accent-green), var(--accent-blue)); }
+        .behavior-card.attractor::before { background: linear-gradient(90deg, var(--accent-pink), var(--accent-purple)); }
+
+        .behavior-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 3rem;
+            font-weight: 800;
+            opacity: 0.15;
+            position: absolute;
+            top: 0.5rem;
+            right: 1rem;
+        }
+
+        .behavior-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .behavior-card p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+
+        /* === PIPELINE === */
+        .pipeline {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+        }
+
+        .pipeline-step {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            min-width: 180px;
+        }
+
+        .pipeline-step h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .pipeline-step p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .pipeline-arrow {
+            font-size: 1.5rem;
+            color: var(--accent-blue);
+            padding: 0 0.5rem;
+        }
+
+        /* === COMPARISON === */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .comparison-table th {
+            text-align: left;
+            padding: 1rem 1.5rem;
+            background: var(--bg-card);
+            border-bottom: 2px solid var(--accent-blue);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+        }
+
+        .comparison-table th:last-child {
+            color: var(--accent-blue);
+        }
+
+        .comparison-table td {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .comparison-table td:last-child {
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        .comparison-table tr:hover td {
+            background: var(--bg-card);
+        }
+
+        /* === PATENT SECTION === */
+        .patent-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .patent-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        .patent-card .patent-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.3rem 0.8rem;
+            background: rgba(78, 205, 196, 0.1);
+            border: 1px solid rgba(78, 205, 196, 0.3);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            color: var(--accent-blue);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .patent-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .patent-card .app-num { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted); }
+
+        /* === CTA / EMAIL === */
+        .cta-section {
+            text-align: center;
+            padding: 6rem 2rem;
+            position: relative;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, var(--glow-purple) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .cta-section h2 { position: relative; z-index: 1; }
+        .cta-section p { position: relative; z-index: 1; color: var(--text-secondary); max-width: 500px; margin: 1rem auto 2rem; }
+
+        .email-form {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .email-form input {
+            flex: 1;
+            padding: 0.85rem 1.25rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .email-form input:focus { border-color: var(--accent-blue); }
+        .email-form input::placeholder { color: var(--text-muted); }
+
+        .email-form button {
+            padding: 0.85rem 2rem;
+            background: var(--accent-blue);
+            color: var(--bg-primary);
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .email-form button:hover { transform: translateY(-2px); box-shadow: 0 4px 20px var(--glow-blue); }
+
+        /* === FOOTER === */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        footer .entity { color: var(--text-secondary); font-weight: 500; margin-bottom: 0.5rem; }
+
+        /* === SEPARATOR === */
+        .separator {
+            max-width: 1200px;
+            margin: 0 auto;
+            border: none;
+            border-top: 1px solid var(--border);
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            nav { padding: 0.75rem 1rem; }
+            .nav-links { display: none; }
+            .hero { padding: 6rem 1.5rem 3rem; }
+            .hero-stats { gap: 2rem; }
+            section { padding: 4rem 1.5rem; }
+            .pipeline { flex-direction: column; }
+            .pipeline-arrow { transform: rotate(90deg); }
+            .email-form { flex-direction: column; }
+            .comparison-table { font-size: 0.8rem; }
+            .comparison-table th, .comparison-table td { padding: 0.75rem; }
+        }
+
+        /* === ANIMATIONS === */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-logo">UCE<span>by Bee Tree Holdings LLC</span></div>
+        <div class="nav-links">
+            <a href="#technology">Technology</a>
+            <a href="#architecture">Architecture</a>
+            <a href="#emergent">Emergent Behaviors</a>
+            <a href="#patents">Patents</a>
+            <a href="#early-access" class="nav-cta">Early Access</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-content">
+            <div class="hero-badge"><span class="dot"></span> Patent Pending — Bee Tree Holdings LLC</div>
+            <h1>Computation That <span class="gradient">Discovers Itself</span></h1>
+            <p class="hero-sub">The Universal Constraint Engine defines simple rules. Complex behaviors emerge automatically. No programming required. This is neuromorphic computing reimagined from first principles.</p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">Conserved Quantities</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">18</div>
+                    <div class="stat-label">Constraint Rules</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">18</div>
+                    <div class="stat-label">Emergent Behaviors</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">45</div>
+                    <div class="stat-label">Valid States</div>
+                </div>
+            </div>
+        </div>
+        <canvas id="neuron-canvas"></canvas>
+    </div>
+
+    <hr class="separator">
+
+    <!-- Problem Section -->
+    <section id="technology" class="fade-in">
+        <div class="section-label">The Problem</div>
+        <h2>Neuromorphic Computing Is Stuck</h2>
+        <p class="section-desc">Every major neuromorphic chip — Intel Loihi, IBM TrueNorth, BrainChip Akida — requires engineers to explicitly program neuron behavior. The computational properties are designed in, not discovered.</p>
+        <div class="problem-grid">
+            <div class="problem-card">
+                <div class="icon" style="background: rgba(78, 205, 196, 0.1);">&#x1F9E0;</div>
+                <h3>Pre-Programmed Neurons</h3>
+                <p>Existing chips use fixed neuron models. Engineers must decide what each neuron does before fabrication. The behavior is baked in, not emergent.</p>
+            </div>
+            <div class="problem-card">
+                <div class="icon" style="background: rgba(167, 139, 250, 0.1);">&#x1F4B0;</div>
+                <h3>Massive Transistor Cost</h3>
+                <p>1,000-2,500 transistors per neuron. A million neurons requires billions of transistors. This limits density and drives up cost.</p>
+            </div>
+            <div class="problem-card">
+                <div class="icon" style="background: rgba(249, 115, 22, 0.1);">&#x26A0;</div>
+                <h3>No Discovery Pipeline</h3>
+                <p>There is no systematic method for finding which constraint configurations produce which computational behaviors. Until now.</p>
+            </div>
+        </div>
+    </section>
+
+    <hr class="separator">
+
+    <!-- Solution Section -->
+    <section class="fade-in">
+        <div class="section-label">The Solution</div>
+        <h2>Define Rules. Discover Behaviors.</h2>
+        <p class="section-desc">UCE inverts the entire paradigm. Instead of designing neurons, you declare constraints. The engine automatically discovers every emergent behavior — memory, logic gates, oscillators, attractors — without writing a single line of behavioral code.</p>
+        <div class="pipeline">
+            <div class="pipeline-step">
+                <h4>Declare Rules</h4>
+                <p>18 simple constraints</p>
+            </div>
+            <span class="pipeline-arrow">&#x2192;</span>
+            <div class="pipeline-step">
+                <h4>Constraint Engine</h4>
+                <p>State enumeration + propagation</p>
+            </div>
+            <span class="pipeline-arrow">&#x2192;</span>
+            <div class="pipeline-step">
+                <h4>Discover Behaviors</h4>
+                <p>18 emergent properties found</p>
+            </div>
+            <span class="pipeline-arrow">&#x2192;</span>
+            <div class="pipeline-step">
+                <h4>Map to Hardware</h4>
+                <p>FPGA, memristive, spintronic</p>
+            </div>
+        </div>
+    </section>
+
+    <hr class="separator">
+
+    <!-- Architecture Section -->
+    <section id="architecture" class="fade-in">
+        <div class="section-label">CSEN Architecture</div>
+        <h2>Seven Quantities. Infinite Potential.</h2>
+        <p class="section-desc">The Constraint-Driven Self-Emergent Neuron is defined by seven binary conserved quantities, each mapping to a biological neural function. Their interactions produce all computational behavior.</p>
+        <div class="quantities-grid">
+            <div class="quantity q-E"><span class="symbol">E</span><span class="name">Excitatory Input</span></div>
+            <div class="quantity q-I"><span class="symbol">I</span><span class="name">Inhibitory Input</span></div>
+            <div class="quantity q-T"><span class="symbol">T</span><span class="name">Threshold</span></div>
+            <div class="quantity q-F"><span class="symbol">F</span><span class="name">Fire</span></div>
+            <div class="quantity q-R"><span class="symbol">R</span><span class="name">Refractory</span></div>
+            <div class="quantity q-L"><span class="symbol">L</span><span class="name">Leak / Decay</span></div>
+            <div class="quantity q-P"><span class="symbol">P</span><span class="name">Potentiation</span></div>
+        </div>
+    </section>
+
+    <hr class="separator">
+
+    <!-- Constraint Algebra -->
+    <section class="fade-in">
+        <div class="section-label">Constraint Algebra</div>
+        <h2>Three Rule Types. That's It.</h2>
+        <p class="section-desc">The entire computational richness of the CSEN emerges from just three types of constraint rules applied to the seven quantities.</p>
+        <div class="problem-grid">
+            <div class="problem-card">
+                <h3 style="color: var(--accent-blue);">allow_toggle</h3>
+                <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">6 rules — AND conjunction</p>
+                <p>Defines when a quantity <em>may</em> change. Multiple conditions must ALL be true. Creates the gating network that chains quantities together.</p>
+            </div>
+            <div class="problem-card">
+                <h3 style="color: var(--accent-orange);">forbid_toggle</h3>
+                <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">8 rules — OR disjunction</p>
+                <p>Defines when a quantity <em>cannot</em> change. ANY satisfied condition blocks the toggle. Creates inhibitory constraints and safety locks.</p>
+            </div>
+            <div class="problem-card">
+                <h3 style="color: var(--accent-pink);">forbid_simultaneous</h3>
+                <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">4 rules — mutual exclusion</p>
+                <p>Eliminates states where two quantities are both active. Creates phase opposition: excitation vs. inhibition, firing vs. refractory.</p>
+            </div>
+        </div>
+    </section>
+
+    <hr class="separator">
+
+    <!-- Emergent Behaviors -->
+    <section id="emergent" class="fade-in">
+        <div class="section-label">What Emerges</div>
+        <h2>18 Behaviors. Zero Programming.</h2>
+        <p class="section-desc">When the UCE processes 18 constraint rules over 7 quantities, it automatically discovers 18 distinct emergent computational behaviors across four categories.</p>
+        <div class="behaviors-grid">
+            <div class="behavior-card memory">
+                <div class="behavior-number">7</div>
+                <h3>Memory Elements</h3>
+                <p>All seven quantities retain their value unless specific gating conditions are met. Each acts as an independent binary memory cell — 7 bits of per-neuron memory, no flip-flops required.</p>
+            </div>
+            <div class="behavior-card logic">
+                <div class="behavior-number">6</div>
+                <h3>Logic Gates</h3>
+                <p>A dual-pathway cascade emerges: the excitatory chain L&#x2192;E&#x2192;T&#x2192;F&#x2192;P and the inhibitory branch L&#x2192;R&#x2192;I. Leak (L) is the master control for the entire neuron.</p>
+            </div>
+            <div class="behavior-card oscillator">
+                <div class="behavior-number">4</div>
+                <h3>Oscillators</h3>
+                <p>Four attractor cycles emerge as oscillatory patterns, including a potentiation oscillator and a sensitization cycle — self-sustaining excitation-learning feedback loops.</p>
+            </div>
+            <div class="behavior-card attractor">
+                <div class="behavior-number">1</div>
+                <h3>Attractor Basin</h3>
+                <p>Nine stable equilibrium states form an attractor basin. The neuron settles into predictable resting configurations, providing the foundation for reliable computation.</p>
+            </div>
+        </div>
+    </section>
+
+    <hr class="separator">
+
+    <!-- Comparison -->
+    <section class="fade-in">
+        <div class="section-label">How We Compare</div>
+        <h2>Not Incremental. Fundamental.</h2>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Intel Loihi 2</th>
+                    <th>IBM TrueNorth</th>
+                    <th>CSEN (Ours)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Neuron Model</td>
+                    <td>Pre-programmed</td>
+                    <td>Fixed LIF</td>
+                    <td>Emergent from constraints</td>
+                </tr>
+                <tr>
+                    <td>Transistors/Neuron</td>
+                    <td>~2,300</td>
+                    <td>~5,400</td>
+                    <td>Target: &lt;100</td>
+                </tr>
+                <tr>
+                    <td>Per-Neuron Memory</td>
+                    <td>Configurable</td>
+                    <td>Limited</td>
+                    <td>7 bits intrinsic</td>
+                </tr>
+                <tr>
+                    <td>Behavior Discovery</td>
+                    <td>Manual</td>
+                    <td>Manual</td>
+                    <td>Automatic pipeline</td>
+                </tr>
+                <tr>
+                    <td>Learning Rule</td>
+                    <td>Programmable STDP</td>
+                    <td>External</td>
+                    <td>Emergent (potentiation)</td>
+                </tr>
+                <tr>
+                    <td>Memory Scaling</td>
+                    <td>Linear</td>
+                    <td>Fixed</td>
+                    <td>3N-1 bits (N neurons)</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <hr class="separator">
+
+    <!-- Patents Section -->
+    <section id="patents" class="fade-in">
+        <div class="section-label">Intellectual Property</div>
+        <h2>Protected Innovation</h2>
+        <p class="section-desc">Patent applications filed with the United States Patent and Trademark Office, establishing priority dates for the core UCE technology stack.</p>
+        <div class="patent-cards" style="max-width:800px;">
+            <div class="patent-card">
+                <div class="patent-status"><span class="dot" style="width:6px;height:6px;background:var(--accent-green);border-radius:50%;animation:pulse 2s infinite;display:inline-block;"></span> Patent Pending</div>
+                <h3>Universal Constraint Engine</h3>
+                <p class="app-num">Application No. 64/036,854</p>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-top:0.5rem;">System and method for discovering emergent behaviors from declarative constraint rules over conserved quantities.</p>
+            </div>
+            <div class="patent-card">
+                <div class="patent-status"><span class="dot" style="width:6px;height:6px;background:var(--accent-green);border-radius:50%;animation:pulse 2s infinite;display:inline-block;"></span> Patent Pending</div>
+                <h3>CSEN Neuromorphic Architecture</h3>
+                <p class="app-num">Application No. 64/039,741</p>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-top:0.5rem;">Constraint-driven self-emergent neuron architecture for neuromorphic computing with 7-quantity, 18-rule design.</p>
+            </div>
+        </div>
+    </section>
+
+    <hr class="separator">
+
+    <!-- CTA Section -->
+    <section id="early-access" class="cta-section">
+        <h2>The Future Computes Itself</h2>
+        <p>Join the early access list. Be the first to experiment with constraint-driven neuromorphic computing.</p>
+        <form class="email-form" id="early-access-form" action="https://formspree.io/f/xaqaqoee" method="POST">
+            <input type="email" name="email" placeholder="your@email.com" required>
+            <input type="hidden" name="_subject" value="UCE Early Access Signup">
+            <input type="hidden" name="_captcha" value="true">
+            <button type="submit">Get Early Access</button>
+        </form>
+        <p id="form-msg" style="margin-top:1rem; font-size:0.85rem; position:relative; z-index:1;"></p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="entity">Bee Tree Holdings LLC</div>
+        <p>&copy; 2026 Bee Tree Holdings LLC. All rights reserved. Patent pending.</p>
+        <p style="margin-top:0.5rem;">Inventor: Stephen Clark Kinney</p>
+    </footer>
+
+    <script>
+        // === Intersection Observer for fade-in ===
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // === Email form handler (Formspree AJAX) ===
+        const form = document.getElementById('early-access-form');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const msg = document.getElementById('form-msg');
+            const btn = form.querySelector('button');
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+            fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: { 'Accept': 'application/json' }
+            }).then(r => {
+                if (r.ok) {
+                    msg.style.color = 'var(--accent-green)';
+                    msg.textContent = "You're on the list. We'll be in touch.";
+                    form.reset();
+                } else {
+                    msg.style.color = 'var(--accent-orange)';
+                    msg.textContent = 'Something went wrong. Please try again.';
+                }
+                btn.disabled = false;
+                btn.textContent = 'Get Early Access';
+            }).catch(() => {
+                msg.style.color = 'var(--accent-orange)';
+                msg.textContent = 'Connection error. Please try again.';
+                btn.disabled = false;
+                btn.textContent = 'Get Early Access';
+            });
+        });
+
+        // === Animated Canvas - Constraint Network Visualization ===
+        const canvas = document.getElementById('neuron-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+            canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const quantities = [
+            { label: 'E', color: '#4ecdc4', x: 0, y: 0, vx: 0.3, vy: 0.2 },
+            { label: 'I', color: '#f472b6', x: 0, y: 0, vx: -0.2, vy: 0.3 },
+            { label: 'T', color: '#f97316', x: 0, y: 0, vx: 0.25, vy: -0.15 },
+            { label: 'F', color: '#ef4444', x: 0, y: 0, vx: -0.3, vy: -0.2 },
+            { label: 'R', color: '#a78bfa', x: 0, y: 0, vx: 0.15, vy: 0.35 },
+            { label: 'L', color: '#34d399', x: 0, y: 0, vx: -0.25, vy: 0.1 },
+            { label: 'P', color: '#fbbf24', x: 0, y: 0, vx: 0.2, vy: -0.3 }
+        ];
+
+        // Connections based on allow_toggle rules (gating network)
+        const connections = [
+            [5, 0], // L gates E
+            [4, 1], // R gates I
+            [0, 2], // E gates T
+            [2, 3], // T gates F
+            [5, 4], // L gates R
+            [3, 6], // F gates P
+        ];
+
+        // Forbid connections
+        const forbids = [
+            [0, 1], // E-I mutual exclusion
+            [3, 4], // F-R mutual exclusion
+            [2, 5], // T-L opposition
+            [4, 6], // R-P mutual exclusion
+        ];
+
+        const w = canvas.offsetWidth;
+        const h = canvas.offsetHeight;
+        const centerX = w / 2;
+        const centerY = h / 2;
+        const radius = Math.min(w, h) * 0.3;
+
+        // Initialize positions in a circle
+        quantities.forEach((q, i) => {
+            const angle = (i / quantities.length) * Math.PI * 2 - Math.PI / 2;
+            q.x = centerX + Math.cos(angle) * radius;
+            q.y = centerY + Math.sin(angle) * radius;
+        });
+
+        let time = 0;
+
+        function animate() {
+            const w = canvas.offsetWidth;
+            const h = canvas.offsetHeight;
+            ctx.clearRect(0, 0, w, h);
+
+            time += 0.005;
+
+            // Update positions (gentle floating)
+            quantities.forEach((q, i) => {
+                const angle = (i / quantities.length) * Math.PI * 2 - Math.PI / 2;
+                q.x = centerX + Math.cos(angle + time * 0.3) * radius + Math.sin(time * 0.5 + i) * 10;
+                q.y = centerY + Math.sin(angle + time * 0.3) * radius + Math.cos(time * 0.7 + i) * 8;
+            });
+
+            // Draw forbid connections (dashed, dim)
+            forbids.forEach(([a, b]) => {
+                ctx.beginPath();
+                ctx.setLineDash([4, 8]);
+                ctx.strokeStyle = 'rgba(239, 68, 68, 0.15)';
+                ctx.lineWidth = 1;
+                ctx.moveTo(quantities[a].x, quantities[a].y);
+                ctx.lineTo(quantities[b].x, quantities[b].y);
+                ctx.stroke();
+                ctx.setLineDash([]);
+            });
+
+            // Draw allow connections with animated pulse
+            connections.forEach(([from, to], idx) => {
+                const fromQ = quantities[from];
+                const toQ = quantities[to];
+
+                const gradient = ctx.createLinearGradient(fromQ.x, fromQ.y, toQ.x, toQ.y);
+                const pulsePos = (Math.sin(time * 3 + idx) + 1) / 2;
+
+                gradient.addColorStop(0, fromQ.color + '40');
+                gradient.addColorStop(Math.max(0, pulsePos - 0.1), fromQ.color + '40');
+                gradient.addColorStop(pulsePos, fromQ.color + 'cc');
+                gradient.addColorStop(Math.min(1, pulsePos + 0.1), toQ.color + '40');
+                gradient.addColorStop(1, toQ.color + '40');
+
+                ctx.beginPath();
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = 2;
+                ctx.moveTo(fromQ.x, fromQ.y);
+                ctx.lineTo(toQ.x, toQ.y);
+                ctx.stroke();
+
+                // Arrow head
+                const angle = Math.atan2(toQ.y - fromQ.y, toQ.x - fromQ.x);
+                const arrowDist = 22;
+                const ax = toQ.x - Math.cos(angle) * arrowDist;
+                const ay = toQ.y - Math.sin(angle) * arrowDist;
+                ctx.beginPath();
+                ctx.fillStyle = toQ.color + '80';
+                ctx.moveTo(ax + Math.cos(angle) * 8, ay + Math.sin(angle) * 8);
+                ctx.lineTo(ax + Math.cos(angle + 2.5) * 5, ay + Math.sin(angle + 2.5) * 5);
+                ctx.lineTo(ax + Math.cos(angle - 2.5) * 5, ay + Math.sin(angle - 2.5) * 5);
+                ctx.fill();
+            });
+
+            // Draw nodes
+            quantities.forEach(q => {
+                // Glow
+                const grd = ctx.createRadialGradient(q.x, q.y, 0, q.x, q.y, 30);
+                grd.addColorStop(0, q.color + '30');
+                grd.addColorStop(1, 'transparent');
+                ctx.beginPath();
+                ctx.fillStyle = grd;
+                ctx.arc(q.x, q.y, 30, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Node circle
+                ctx.beginPath();
+                ctx.fillStyle = '#0a0a0f';
+                ctx.strokeStyle = q.color;
+                ctx.lineWidth = 2;
+                ctx.arc(q.x, q.y, 18, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+
+                // Label
+                ctx.fillStyle = q.color;
+                ctx.font = '600 14px "JetBrains Mono", monospace';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(q.label, q.x, q.y);
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
