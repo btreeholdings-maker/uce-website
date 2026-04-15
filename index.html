@@ -60,9 +60,10 @@
             font-weight: 800;
             letter-spacing: -0.02em;
             color: var(--accent-blue);
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
         }
-
-        .nav-logo { display: flex; flex-direction: column; line-height: 1.1; }
         .nav-logo span { color: var(--text-muted); font-weight: 400; font-size: 0.65rem; letter-spacing: 0.05em; }
 
         .nav-links { display: flex; gap: 2rem; align-items: center; }
@@ -159,39 +160,9 @@
             font-size: 1.25rem;
             color: var(--text-secondary);
             max-width: 650px;
-            margin: 0 auto 2.5rem;
+            margin: 0 auto 2rem;
             line-height: 1.7;
             font-weight: 300;
-        }
-
-        .hero-stats {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin-top: 3rem;
-            flex-wrap: wrap;
-        }
-
-        .stat {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            font-family: 'JetBrains Mono', monospace;
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .stat-label {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-top: 0.25rem;
         }
 
         /* === CANVAS SECTION === */
@@ -200,7 +171,7 @@
             height: 400px;
             position: relative;
             z-index: 1;
-            margin-top: -2rem;
+            margin-top: 1rem;
         }
 
         /* === SECTIONS === */
@@ -235,15 +206,73 @@
             line-height: 1.7;
         }
 
-        /* === PROBLEM/SOLUTION === */
-        .problem-grid {
+        /* === DNA ANALOGY SECTION === */
+        .analogy-container {
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .analogy-text {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--accent-purple);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .analogy-text strong {
+            color: var(--accent-purple);
+            font-weight: 600;
+        }
+
+        .comparison-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .comparison-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .comparison-item h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .comparison-item .step {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .comparison-item .step-num {
+            font-weight: 700;
+            color: var(--accent-blue);
+            min-width: 30px;
+        }
+
+        /* === CARDS GRID === */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
             margin-top: 2rem;
         }
 
-        .problem-card {
+        .card {
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 16px;
@@ -251,13 +280,13 @@
             transition: all 0.3s ease;
         }
 
-        .problem-card:hover {
+        .card:hover {
             border-color: var(--accent-blue);
             transform: translateY(-4px);
             box-shadow: 0 12px 40px rgba(0,0,0,0.3);
         }
 
-        .problem-card .icon {
+        .card .icon {
             width: 48px;
             height: 48px;
             border-radius: 12px;
@@ -268,19 +297,114 @@
             margin-bottom: 1.25rem;
         }
 
-        .problem-card h3 {
+        .card h3 {
             font-size: 1.15rem;
             font-weight: 700;
             margin-bottom: 0.75rem;
         }
 
-        .problem-card p {
+        .card p {
             font-size: 0.95rem;
             color: var(--text-secondary);
             line-height: 1.6;
         }
 
-        /* === QUANTITIES === */
+        /* === DEMO SECTION === */
+        #demo-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .demo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .demo-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .demo-controls {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .demo-btn {
+            padding: 0.5rem 1rem;
+            background: var(--accent-blue);
+            color: var(--bg-primary);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .demo-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px var(--glow-blue);
+        }
+
+        .demo-btn.secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .demo-btn.secondary:hover {
+            border-color: var(--accent-blue);
+            background: var(--bg-card-hover);
+        }
+
+        .demo-canvas {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.05) 0%, rgba(167, 139, 250, 0.05) 100%);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            display: block;
+        }
+
+        .demo-walkthrough {
+            margin-top: 1.5rem;
+        }
+
+        .walkthrough-step {
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            background: var(--bg-primary);
+            border-left: 3px solid var(--accent-blue);
+            border-radius: 4px;
+        }
+
+        .walkthrough-step.active {
+            border-left-color: var(--accent-green);
+            background: rgba(52, 211, 153, 0.05);
+        }
+
+        .walkthrough-step h4 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .walkthrough-step p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* === QUANTITIES GRID === */
         .quantities-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -326,86 +450,92 @@
         .q-L .symbol { color: var(--accent-green); }
         .q-P .symbol { color: #fbbf24; }
 
-        /* === EMERGENT BEHAVIORS === */
-        .behaviors-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+        /* === EXPANDABLE SECTIONS === */
+        .expandable {
+            margin-top: 2rem;
         }
 
-        .behavior-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .behavior-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-        }
-
-        .behavior-card.memory::before { background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple)); }
-        .behavior-card.logic::before { background: linear-gradient(90deg, var(--accent-orange), #ef4444); }
-        .behavior-card.oscillator::before { background: linear-gradient(90deg, var(--accent-green), var(--accent-blue)); }
-        .behavior-card.attractor::before { background: linear-gradient(90deg, var(--accent-pink), var(--accent-purple)); }
-
-        .behavior-number {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 3rem;
-            font-weight: 800;
-            opacity: 0.15;
-            position: absolute;
-            top: 0.5rem;
-            right: 1rem;
-        }
-
-        .behavior-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
-        .behavior-card p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
-
-        /* === PIPELINE === */
-        .pipeline {
+        .expandable-header {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 0;
-            margin: 3rem 0;
-            flex-wrap: wrap;
-        }
-
-        .pipeline-step {
+            gap: 0.75rem;
+            padding: 1.25rem;
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 1.5rem 2rem;
-            text-align: center;
-            min-width: 180px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
-        .pipeline-step h4 {
+        .expandable-header:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--accent-blue);
+        }
+
+        .expandable-toggle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            color: var(--accent-blue);
+            transition: transform 0.3s;
+            font-size: 1.2rem;
+        }
+
+        .expandable-toggle.open {
+            transform: rotate(180deg);
+        }
+
+        .expandable-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .expandable-content.open {
+            max-height: 2000px;
+            padding: 1.25rem;
+        }
+
+        .expandable-content-inner {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+            padding: 1.5rem;
+        }
+
+        .expandable-content-inner p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .expandable-content-inner h4 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
             font-size: 0.95rem;
             font-weight: 700;
-            margin-bottom: 0.25rem;
+            color: var(--text-primary);
         }
 
-        .pipeline-step p {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        .pipeline-arrow {
-            font-size: 1.5rem;
+        .code-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
             color: var(--accent-blue);
-            padding: 0 0.5rem;
+            overflow-x: auto;
+            line-height: 1.5;
         }
 
-        /* === COMPARISON === */
+        /* === COMPARISON TABLE === */
         .comparison-table {
             width: 100%;
             border-collapse: collapse;
@@ -561,13 +691,12 @@
             nav { padding: 0.75rem 1rem; }
             .nav-links { display: none; }
             .hero { padding: 6rem 1.5rem 3rem; }
-            .hero-stats { gap: 2rem; }
             section { padding: 4rem 1.5rem; }
-            .pipeline { flex-direction: column; }
-            .pipeline-arrow { transform: rotate(90deg); }
+            .comparison-container { grid-template-columns: 1fr; }
             .email-form { flex-direction: column; }
             .comparison-table { font-size: 0.8rem; }
             .comparison-table th, .comparison-table td { padding: 0.75rem; }
+            .demo-controls { width: 100%; justify-content: center; }
         }
 
         /* === ANIMATIONS === */
@@ -589,9 +718,9 @@
     <nav>
         <div class="nav-logo">UCE<span>by Bee Tree Holdings LLC</span></div>
         <div class="nav-links">
-            <a href="#technology">Technology</a>
+            <a href="#what-is-this">How It Works</a>
+            <a href="#demo">See Demo</a>
             <a href="#architecture">Architecture</a>
-            <a href="#emergent">Emergent Behaviors</a>
             <a href="#patents">Patents</a>
             <a href="#early-access" class="nav-cta">Early Access</a>
         </div>
@@ -601,82 +730,186 @@
     <div class="hero">
         <div class="hero-content">
             <div class="hero-badge"><span class="dot"></span> Patent Pending — Bee Tree Holdings LLC</div>
-            <h1>Computation That <span class="gradient">Discovers Itself</span></h1>
-            <p class="hero-sub">The Universal Constraint Engine defines simple rules. Complex behaviors emerge automatically. No programming required. This is neuromorphic computing reimagined from first principles.</p>
-            <div class="hero-stats">
-                <div class="stat">
-                    <div class="stat-number">7</div>
-                    <div class="stat-label">Conserved Quantities</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">18</div>
-                    <div class="stat-label">Constraint Rules</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">18</div>
-                    <div class="stat-label">Emergent Behaviors</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-number">45</div>
-                    <div class="stat-label">Valid States</div>
-                </div>
-            </div>
+            <h1>What if computers could <span class="gradient">wire themselves?</span></h1>
+            <p class="hero-sub">The Universal Constraint Engine defines simple rules about what can and can't happen. The computer figures out the rest — memory, logic, learning — all by itself. No programming required.</p>
         </div>
         <canvas id="neuron-canvas"></canvas>
     </div>
 
     <hr class="separator">
 
-    <!-- Problem Section -->
-    <section id="technology" class="fade-in">
-        <div class="section-label">The Problem</div>
-        <h2>Neuromorphic Computing Is Stuck</h2>
-        <p class="section-desc">Every major neuromorphic chip — Intel Loihi, IBM TrueNorth, BrainChip Akida — requires engineers to explicitly program neuron behavior. The computational properties are designed in, not discovered.</p>
-        <div class="problem-grid">
-            <div class="problem-card">
-                <div class="icon" style="background: rgba(78, 205, 196, 0.1);">&#x1F9E0;</div>
-                <h3>Pre-Programmed Neurons</h3>
-                <p>Existing chips use fixed neuron models. Engineers must decide what each neuron does before fabrication. The behavior is baked in, not emergent.</p>
+    <!-- What Is This Section -->
+    <section id="what-is-this" class="fade-in">
+        <div class="section-label">The Core Idea</div>
+        <h2>Think of It Like DNA</h2>
+
+        <div class="analogy-container">
+            <div class="analogy-text">
+                <strong>DNA doesn't contain instructions for every possible behavior.</strong> It contains simple rules. Those rules interact, and complex life emerges — billions of cell types, organs, brains, all from the same genetic rules. <strong>UCE works the same way for computing.</strong> We define simple rules about what CAN and CAN'T happen. The computer figures out the rest — memory cells, logic gates, oscillators — all by discovering them automatically from the constraints.
             </div>
-            <div class="problem-card">
-                <div class="icon" style="background: rgba(167, 139, 250, 0.1);">&#x1F4B0;</div>
-                <h3>Massive Transistor Cost</h3>
-                <p>1,000-2,500 transistors per neuron. A million neurons requires billions of transistors. This limits density and drives up cost.</p>
-            </div>
-            <div class="problem-card">
-                <div class="icon" style="background: rgba(249, 115, 22, 0.1);">&#x26A0;</div>
-                <h3>No Discovery Pipeline</h3>
-                <p>There is no systematic method for finding which constraint configurations produce which computational behaviors. Until now.</p>
+
+            <div class="comparison-container">
+                <div class="comparison-item">
+                    <h4 style="color: var(--accent-orange);">Traditional Neuromorphic Chips</h4>
+                    <div class="step">
+                        <span class="step-num">1</span>
+                        <span>Engineer designs each neuron</span>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">2</span>
+                        <span>Programs the behavior explicitly</span>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">3</span>
+                        <span>Gets exactly what they programmed</span>
+                    </div>
+                </div>
+
+                <div class="comparison-item">
+                    <h4 style="color: var(--accent-green);">UCE Approach</h4>
+                    <div class="step">
+                        <span class="step-num">1</span>
+                        <span>Engineer defines simple rules</span>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">2</span>
+                        <span>Engine discovers emergent behaviors</span>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">3</span>
+                        <span>Discovers things nobody programmed</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <hr class="separator">
 
-    <!-- Solution Section -->
+    <!-- Interactive Demo Section -->
+    <section id="demo" class="fade-in">
+        <div class="section-label">See It In Action</div>
+        <h2>Interactive Constraint Explorer</h2>
+        <p class="section-desc">Click "Start Walkthrough" to see how constraints create computational behaviors step by step. Or toggle individual constraints below to experiment.</p>
+
+        <div id="demo-container">
+            <div class="demo-header">
+                <div class="demo-title">Constraint Network</div>
+                <div class="demo-controls">
+                    <button class="demo-btn secondary" id="reset-demo">Reset</button>
+                    <button class="demo-btn" id="start-walkthrough">Start Walkthrough</button>
+                </div>
+            </div>
+
+            <canvas id="demo-canvas" class="demo-canvas"></canvas>
+
+            <div class="demo-walkthrough">
+                <div class="walkthrough-step active" data-step="1">
+                    <h4>Step 1: Seven Switches</h4>
+                    <p>The system has 7 binary quantities: E, I, T, F, R, L, P. Each is either ON or OFF. This is the building block.</p>
+                </div>
+                <div class="walkthrough-step" data-step="2">
+                    <h4>Step 2: Add a Rule</h4>
+                    <p>Rule: "E can only turn on when L is on" — this is a constraint. When L is off, E is locked. This gates the excitation.</p>
+                </div>
+                <div class="walkthrough-step" data-step="3">
+                    <h4>Step 3: Chain Rules Together</h4>
+                    <p>Add more constraints: E gates T, T gates F, F gates P. Each constraint depends on the previous. The system now has a pathway.</p>
+                </div>
+                <div class="walkthrough-step" data-step="4">
+                    <h4>Step 4: Inhibitory Path</h4>
+                    <p>Add another rule: "I and E can never both be on." This creates mutual exclusion. The system can now make decisions.</p>
+                </div>
+                <div class="walkthrough-step" data-step="5">
+                    <h4>Step 5: Behaviors Emerge</h4>
+                    <p>The constraints lock into 45 valid states. Within those states, it discovers memory (each quantity remembers), logic gates (cascading pathways), oscillators (self-sustaining cycles), and stable attractors.</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem;">
+                <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 1rem;">Toggle Constraints</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+                    <label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem; background: var(--bg-primary); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.2s;">
+                        <input type="checkbox" id="allow-L-gates-E" checked style="cursor: pointer;">
+                        <span style="font-size: 0.9rem;">L gates E</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem; background: var(--bg-primary); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.2s;">
+                        <input type="checkbox" id="forbid-E-I" checked style="cursor: pointer;">
+                        <span style="font-size: 0.9rem;">E-I mutual exclusion</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem; background: var(--bg-primary); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.2s;">
+                        <input type="checkbox" id="allow-E-gates-T" checked style="cursor: pointer;">
+                        <span style="font-size: 0.9rem;">E gates T</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem; background: var(--bg-primary); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.2s;">
+                        <input type="checkbox" id="allow-T-gates-F" checked style="cursor: pointer;">
+                        <span style="font-size: 0.9rem;">T gates F</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem; background: var(--bg-primary); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.2s;">
+                        <input type="checkbox" id="forbid-F-R" checked style="cursor: pointer;">
+                        <span style="font-size: 0.9rem;">F-R mutual exclusion</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem; background: var(--bg-primary); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.2s;">
+                        <input type="checkbox" id="allow-F-gates-P" checked style="cursor: pointer;">
+                        <span style="font-size: 0.9rem;">F gates P</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="separator">
+
+    <!-- The Problem Section -->
+    <section id="technology" class="fade-in">
+        <div class="section-label">The Problem</div>
+        <h2>Neuromorphic Chips Hit a Wall</h2>
+        <p class="section-desc">Every major neuromorphic chip on the market today requires engineers to hand-code neuron behavior. That's like building a brain one cell at a time.</p>
+        <div class="card-grid">
+            <div class="card">
+                <div class="icon" style="background: rgba(249, 115, 22, 0.1);">⚙️</div>
+                <h3>Hand-Crafted Neurons</h3>
+                <p>Engineers design each neuron's behavior before fabrication. The computational properties are baked in, not emergent. Want a different neuron? Redesign it.</p>
+            </div>
+            <div class="card">
+                <div class="icon" style="background: rgba(167, 139, 250, 0.1);">📊</div>
+                <h3>Transistor Bloat</h3>
+                <p>1,000-2,500 transistors per neuron. A million-neuron network needs billions of transistors. That limits density and drives up power and cost.</p>
+            </div>
+            <div class="card">
+                <div class="icon" style="background: rgba(78, 205, 196, 0.1);">🔍</div>
+                <h3>No Discovery Method</h3>
+                <p>There's no systematic way to find which designs produce which computational behaviors. It's all trial and error. There was no framework — until now.</p>
+            </div>
+        </div>
+    </section>
+
+    <hr class="separator">
+
+    <!-- The Solution Section -->
     <section class="fade-in">
         <div class="section-label">The Solution</div>
         <h2>Define Rules. Discover Behaviors.</h2>
-        <p class="section-desc">UCE inverts the entire paradigm. Instead of designing neurons, you declare constraints. The engine automatically discovers every emergent behavior — memory, logic gates, oscillators, attractors — without writing a single line of behavioral code.</p>
-        <div class="pipeline">
-            <div class="pipeline-step">
-                <h4>Declare Rules</h4>
-                <p>18 simple constraints</p>
-            </div>
-            <span class="pipeline-arrow">&#x2192;</span>
-            <div class="pipeline-step">
-                <h4>Constraint Engine</h4>
-                <p>State enumeration + propagation</p>
-            </div>
-            <span class="pipeline-arrow">&#x2192;</span>
-            <div class="pipeline-step">
-                <h4>Discover Behaviors</h4>
-                <p>18 emergent properties found</p>
-            </div>
-            <span class="pipeline-arrow">&#x2192;</span>
-            <div class="pipeline-step">
-                <h4>Map to Hardware</h4>
-                <p>FPGA, memristive, spintronic</p>
+        <p class="section-desc">Instead of designing neurons, you declare constraints. The UCE automatically discovers every emergent behavior — without writing a single line of neuron code.</p>
+
+        <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; margin-top: 2rem;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; text-align: center;">
+                <div>
+                    <div style="font-size: 2rem; font-weight: 800; color: var(--accent-blue); margin-bottom: 0.5rem;">7</div>
+                    <div style="font-size: 0.9rem; color: var(--text-secondary);">Conserved Quantities</div>
+                </div>
+                <div>
+                    <div style="font-size: 2rem; font-weight: 800; color: var(--accent-purple); margin-bottom: 0.5rem;">18</div>
+                    <div style="font-size: 0.9rem; color: var(--text-secondary);">Constraint Rules</div>
+                </div>
+                <div>
+                    <div style="font-size: 2rem; font-weight: 800; color: var(--accent-green); margin-bottom: 0.5rem;">45</div>
+                    <div style="font-size: 0.9rem; color: var(--text-secondary);">Valid System States</div>
+                </div>
+                <div>
+                    <div style="font-size: 2rem; font-weight: 800; color: var(--accent-orange); margin-bottom: 0.5rem;">18</div>
+                    <div style="font-size: 0.9rem; color: var(--text-secondary);">Emergent Behaviors</div>
+                </div>
             </div>
         </div>
     </section>
@@ -685,42 +918,122 @@
 
     <!-- Architecture Section -->
     <section id="architecture" class="fade-in">
-        <div class="section-label">CSEN Architecture</div>
-        <h2>Seven Quantities. Infinite Potential.</h2>
-        <p class="section-desc">The Constraint-Driven Self-Emergent Neuron is defined by seven binary conserved quantities, each mapping to a biological neural function. Their interactions produce all computational behavior.</p>
+        <div class="section-label">The Core Design</div>
+        <h2>Seven Quantities. Infinite Complexity.</h2>
+        <p class="section-desc">The Constraint-Driven Self-Emergent Neuron (CSEN) has seven binary quantities. Each maps to a biological neural function. Their interactions produce all computational behavior.</p>
+
         <div class="quantities-grid">
-            <div class="quantity q-E"><span class="symbol">E</span><span class="name">Excitatory Input</span></div>
-            <div class="quantity q-I"><span class="symbol">I</span><span class="name">Inhibitory Input</span></div>
-            <div class="quantity q-T"><span class="symbol">T</span><span class="name">Threshold</span></div>
-            <div class="quantity q-F"><span class="symbol">F</span><span class="name">Fire</span></div>
-            <div class="quantity q-R"><span class="symbol">R</span><span class="name">Refractory</span></div>
-            <div class="quantity q-L"><span class="symbol">L</span><span class="name">Leak / Decay</span></div>
-            <div class="quantity q-P"><span class="symbol">P</span><span class="name">Potentiation</span></div>
+            <div class="quantity q-E">
+                <span class="symbol">E</span>
+                <span class="name">Excitatory Input</span>
+            </div>
+            <div class="quantity q-I">
+                <span class="symbol">I</span>
+                <span class="name">Inhibitory Input</span>
+            </div>
+            <div class="quantity q-T">
+                <span class="symbol">T</span>
+                <span class="name">Threshold</span>
+            </div>
+            <div class="quantity q-F">
+                <span class="symbol">F</span>
+                <span class="name">Fire / Output</span>
+            </div>
+            <div class="quantity q-R">
+                <span class="symbol">R</span>
+                <span class="name">Refractory Period</span>
+            </div>
+            <div class="quantity q-L">
+                <span class="symbol">L</span>
+                <span class="name">Leak / Decay</span>
+            </div>
+            <div class="quantity q-P">
+                <span class="symbol">P</span>
+                <span class="name">Potentiation / Learning</span>
+            </div>
+        </div>
+
+        <div class="expandable">
+            <div class="expandable-header">
+                <span class="expandable-toggle">▼</span>
+                For Engineers: Technical Deep Dive
+            </div>
+            <div class="expandable-content">
+                <div class="expandable-content-inner">
+                    <p>The CSEN is defined by 7 binary conserved quantities that form the state space. Each quantity represents a distinct neural property:</p>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li><strong>E (Excitatory)</strong>: Input signal, excitatory channel</li>
+                        <li><strong>I (Inhibitory)</strong>: Input signal, inhibitory channel</li>
+                        <li><strong>T (Threshold)</strong>: Threshold for activation</li>
+                        <li><strong>F (Fire)</strong>: Output spike, action potential</li>
+                        <li><strong>R (Refractory)</strong>: Refractory period, spike-timing constraint</li>
+                        <li><strong>L (Leak)</strong>: Leakage current, state decay</li>
+                        <li><strong>P (Potentiation)</strong>: Synaptic strength, learning marker</li>
+                    </ul>
+                    <p style="margin-top: 1rem;">Constraint rules are applied over these quantities:</p>
+                    <div class="code-block">
+allow_toggle: 6 rules (AND conjunction)<br/>
+forbid_toggle: 8 rules (OR disjunction)<br/>
+forbid_simultaneous: 4 rules (mutual exclusion)
+                    </div>
+                    <p>These 18 rules create a state transition graph with 45 reachable valid states out of 128 possible (2^7). The graph structure itself exhibits emergent computational properties.</p>
+                </div>
+            </div>
         </div>
     </section>
 
     <hr class="separator">
 
-    <!-- Constraint Algebra -->
+    <!-- How It Works Section -->
     <section class="fade-in">
-        <div class="section-label">Constraint Algebra</div>
-        <h2>Three Rule Types. That's It.</h2>
-        <p class="section-desc">The entire computational richness of the CSEN emerges from just three types of constraint rules applied to the seven quantities.</p>
-        <div class="problem-grid">
-            <div class="problem-card">
-                <h3 style="color: var(--accent-blue);">allow_toggle</h3>
+        <div class="section-label">How Behaviors Emerge</div>
+        <h2>Three Types of Rules</h2>
+        <p class="section-desc">All computational richness comes from just three types of constraints applied to the seven quantities.</p>
+
+        <div class="card-grid">
+            <div class="card">
+                <h3 style="color: var(--accent-blue); margin-bottom: 0.5rem;">Allow Rules</h3>
                 <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">6 rules — AND conjunction</p>
-                <p>Defines when a quantity <em>may</em> change. Multiple conditions must ALL be true. Creates the gating network that chains quantities together.</p>
+                <p>Define when a quantity <em>may</em> change. Multiple conditions must ALL be true. Create the gating network that chains quantities together into pathways.</p>
             </div>
-            <div class="problem-card">
-                <h3 style="color: var(--accent-orange);">forbid_toggle</h3>
+            <div class="card">
+                <h3 style="color: var(--accent-orange); margin-bottom: 0.5rem;">Forbid Rules</h3>
                 <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">8 rules — OR disjunction</p>
-                <p>Defines when a quantity <em>cannot</em> change. ANY satisfied condition blocks the toggle. Creates inhibitory constraints and safety locks.</p>
+                <p>Define when a quantity <em>cannot</em> change. ANY satisfied condition blocks the toggle. Create inhibitory constraints and safety locks.</p>
             </div>
-            <div class="problem-card">
-                <h3 style="color: var(--accent-pink);">forbid_simultaneous</h3>
-                <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">4 rules — mutual exclusion</p>
-                <p>Eliminates states where two quantities are both active. Creates phase opposition: excitation vs. inhibition, firing vs. refractory.</p>
+            <div class="card">
+                <h3 style="color: var(--accent-pink); margin-bottom: 0.5rem;">Mutual Exclusion</h3>
+                <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">4 rules — exclusive-or</p>
+                <p>Eliminate states where two quantities are both active. Create phase opposition (excitation vs. inhibition, firing vs. refractory).</p>
+            </div>
+        </div>
+
+        <div class="expandable">
+            <div class="expandable-header">
+                <span class="expandable-toggle">▼</span>
+                For Engineers: Constraint Algebra Details
+            </div>
+            <div class="expandable-content">
+                <div class="expandable-content-inner">
+                    <h4>Allow Toggles (AND Conjunction)</h4>
+                    <p>A quantity's state change is allowed only if ALL specified conditions are met. Example: "E can toggle only if L is on AND R is off". This creates dependencies between quantities.</p>
+
+                    <h4>Forbid Toggles (OR Disjunction)</h4>
+                    <p>A quantity's state change is forbidden if ANY specified condition is met. Example: "F cannot toggle if P is off OR I is on". This creates inhibitory safeguards.</p>
+
+                    <h4>Forbid Simultaneous (Mutual Exclusion)</h4>
+                    <p>Two quantities cannot both be active in the same state. Example: "E and I can never both be on". This eliminates invalid combinations.</p>
+
+                    <p style="margin-top: 1rem;">The combination of these rules produces a constraint satisfaction problem (CSP). The UCE solves this CSP to enumerate all 45 valid states, then analyzes the state transition graph for emergent properties.</p>
+
+                    <h4>Emergent Behaviors Found:</h4>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                        <li><strong>Memory Elements (7)</strong>: Each quantity acts as a binary memory cell</li>
+                        <li><strong>Logic Gates (6)</strong>: Cascading pathways (L→E→T→F→P and L→R→I)</li>
+                        <li><strong>Oscillators (4)</strong>: Self-sustaining cycles (potentiation, sensitization)</li>
+                        <li><strong>Attractor Basin (9)</strong>: Stable equilibrium states</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
@@ -729,30 +1042,32 @@
 
     <!-- Emergent Behaviors -->
     <section id="emergent" class="fade-in">
-        <div class="section-label">What Emerges</div>
+        <div class="section-label">What Emerges Automatically</div>
         <h2>18 Behaviors. Zero Programming.</h2>
-        <p class="section-desc">When the UCE processes 18 constraint rules over 7 quantities, it automatically discovers 18 distinct emergent computational behaviors across four categories.</p>
-        <div class="behaviors-grid">
-            <div class="behavior-card memory">
-                <div class="behavior-number">7</div>
-                <h3>Memory Elements</h3>
-                <p>All seven quantities retain their value unless specific gating conditions are met. Each acts as an independent binary memory cell — 7 bits of per-neuron memory, no flip-flops required.</p>
+        <p class="section-desc">The engine processes the 18 constraint rules over 7 quantities and discovers 18 distinct computational behaviors across four categories.</p>
+
+        <div class="card-grid">
+            <div class="card">
+                <h3>It Remembers Things</h3>
+                <p>All seven quantities retain their value unless specific gating conditions unlock them. Each acts as an independent binary memory cell — 7 bits of per-neuron storage, with no flip-flops required.</p>
             </div>
-            <div class="behavior-card logic">
-                <div class="behavior-number">6</div>
-                <h3>Logic Gates</h3>
-                <p>A dual-pathway cascade emerges: the excitatory chain L&#x2192;E&#x2192;T&#x2192;F&#x2192;P and the inhibitory branch L&#x2192;R&#x2192;I. Leak (L) is the master control for the entire neuron.</p>
+            <div class="card">
+                <h3>It Makes Decisions</h3>
+                <p>A dual-pathway cascade emerges: excitation (L→E→T→F→P) and inhibition (L→R→I). Leak (L) acts as the master control for the entire neuron. Gating creates logic operations.</p>
             </div>
-            <div class="behavior-card oscillator">
-                <div class="behavior-number">4</div>
-                <h3>Oscillators</h3>
-                <p>Four attractor cycles emerge as oscillatory patterns, including a potentiation oscillator and a sensitization cycle — self-sustaining excitation-learning feedback loops.</p>
+            <div class="card">
+                <h3>It Creates Rhythms</h3>
+                <p>Four attractor cycles emerge as oscillatory patterns: potentiation oscillator, sensitization cycle, and more. These are self-sustaining excitation-learning feedback loops.</p>
             </div>
-            <div class="behavior-card attractor">
-                <div class="behavior-number">1</div>
-                <h3>Attractor Basin</h3>
-                <p>Nine stable equilibrium states form an attractor basin. The neuron settles into predictable resting configurations, providing the foundation for reliable computation.</p>
+            <div class="card">
+                <h3>It Finds Stable States</h3>
+                <p>Nine stable equilibrium states form an attractor basin. The neuron naturally settles into predictable resting configurations, providing the foundation for reliable computation.</p>
             </div>
+        </div>
+
+        <div style="margin-top: 3rem;">
+            <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 1.5rem;">Why This Matters</h3>
+            <p style="color: var(--text-secondary); line-height: 1.7;">These behaviors are not programmed. They emerge from the constraint rules. This means the CSEN can discover computational properties that engineers never explicitly designed. Traditional neuromorphic chips do the opposite — every behavior must be hand-coded. UCE flips the paradigm: define rules, discover behaviors.</p>
         </div>
     </section>
 
@@ -761,28 +1076,29 @@
     <!-- Comparison -->
     <section class="fade-in">
         <div class="section-label">How We Compare</div>
-        <h2>Not Incremental. Fundamental.</h2>
+        <h2>Not an Incremental Improvement</h2>
+        <p class="section-desc">UCE is a fundamentally different architecture. Here's how it stacks against the state of the art.</p>
         <table class="comparison-table">
             <thead>
                 <tr>
                     <th>Feature</th>
-                    <th>Intel Loihi 2</th>
-                    <th>IBM TrueNorth</th>
+                    <th>Conventional Chip A</th>
+                    <th>Conventional Chip B</th>
                     <th>CSEN (Ours)</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>Neuron Model</td>
-                    <td>Pre-programmed</td>
-                    <td>Fixed LIF</td>
+                    <td>Neuron Design</td>
+                    <td>Hand-programmed</td>
+                    <td>Fixed LIF model</td>
                     <td>Emergent from constraints</td>
                 </tr>
                 <tr>
                     <td>Transistors/Neuron</td>
                     <td>~2,300</td>
                     <td>~5,400</td>
-                    <td>Target: &lt;100</td>
+                    <td>Target: < 100</td>
                 </tr>
                 <tr>
                     <td>Per-Neuron Memory</td>
@@ -792,9 +1108,9 @@
                 </tr>
                 <tr>
                     <td>Behavior Discovery</td>
-                    <td>Manual</td>
-                    <td>Manual</td>
-                    <td>Automatic pipeline</td>
+                    <td>Manual design</td>
+                    <td>Manual design</td>
+                    <td>Automatic enumeration</td>
                 </tr>
                 <tr>
                     <td>Learning Rule</td>
@@ -807,6 +1123,12 @@
                     <td>Linear</td>
                     <td>Fixed</td>
                     <td>3N-1 bits (N neurons)</td>
+                </tr>
+                <tr>
+                    <td>How It Works</td>
+                    <td>Engineer programs each neuron</td>
+                    <td>Engineer programs each neuron</td>
+                    <td>Engineer defines rules, behaviors emerge</td>
                 </tr>
             </tbody>
         </table>
@@ -840,7 +1162,7 @@
     <!-- CTA Section -->
     <section id="early-access" class="cta-section">
         <h2>The Future Computes Itself</h2>
-        <p>Join the early access list. Be the first to experiment with constraint-driven neuromorphic computing.</p>
+        <p>Join the early access list. Be among the first to experiment with constraint-driven neuromorphic computing.</p>
         <form class="email-form" id="early-access-form" action="https://formspree.io/f/xaqaqoee" method="POST">
             <input type="email" name="email" placeholder="your@email.com" required>
             <input type="hidden" name="_subject" value="UCE Early Access Signup">
@@ -868,6 +1190,16 @@
         }, { threshold: 0.1 });
 
         document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // === Expandable Sections ===
+        document.querySelectorAll('.expandable-header').forEach(header => {
+            header.addEventListener('click', function() {
+                const toggle = this.querySelector('.expandable-toggle');
+                const content = this.nextElementSibling;
+                toggle.classList.toggle('open');
+                content.classList.toggle('open');
+            });
+        });
 
         // === Email form handler (Formspree AJAX) ===
         const form = document.getElementById('early-access-form');
@@ -900,7 +1232,7 @@
             });
         });
 
-        // === Animated Canvas - Constraint Network Visualization ===
+        // === Hero Canvas - Constraint Network Visualization ===
         const canvas = document.getElementById('neuron-canvas');
         const ctx = canvas.getContext('2d');
 
@@ -913,31 +1245,21 @@
         window.addEventListener('resize', resizeCanvas);
 
         const quantities = [
-            { label: 'E', color: '#4ecdc4', x: 0, y: 0, vx: 0.3, vy: 0.2 },
-            { label: 'I', color: '#f472b6', x: 0, y: 0, vx: -0.2, vy: 0.3 },
-            { label: 'T', color: '#f97316', x: 0, y: 0, vx: 0.25, vy: -0.15 },
-            { label: 'F', color: '#ef4444', x: 0, y: 0, vx: -0.3, vy: -0.2 },
-            { label: 'R', color: '#a78bfa', x: 0, y: 0, vx: 0.15, vy: 0.35 },
-            { label: 'L', color: '#34d399', x: 0, y: 0, vx: -0.25, vy: 0.1 },
-            { label: 'P', color: '#fbbf24', x: 0, y: 0, vx: 0.2, vy: -0.3 }
+            { label: 'E', color: '#4ecdc4', x: 0, y: 0 },
+            { label: 'I', color: '#f472b6', x: 0, y: 0 },
+            { label: 'T', color: '#f97316', x: 0, y: 0 },
+            { label: 'F', color: '#ef4444', x: 0, y: 0 },
+            { label: 'R', color: '#a78bfa', x: 0, y: 0 },
+            { label: 'L', color: '#34d399', x: 0, y: 0 },
+            { label: 'P', color: '#fbbf24', x: 0, y: 0 }
         ];
 
-        // Connections based on allow_toggle rules (gating network)
         const connections = [
-            [5, 0], // L gates E
-            [4, 1], // R gates I
-            [0, 2], // E gates T
-            [2, 3], // T gates F
-            [5, 4], // L gates R
-            [3, 6], // F gates P
+            [5, 0], [4, 1], [0, 2], [2, 3], [5, 4], [3, 6]
         ];
 
-        // Forbid connections
         const forbids = [
-            [0, 1], // E-I mutual exclusion
-            [3, 4], // F-R mutual exclusion
-            [2, 5], // T-L opposition
-            [4, 6], // R-P mutual exclusion
+            [0, 1], [3, 4], [2, 5], [4, 6]
         ];
 
         const w = canvas.offsetWidth;
@@ -946,30 +1268,26 @@
         const centerY = h / 2;
         const radius = Math.min(w, h) * 0.3;
 
-        // Initialize positions in a circle
         quantities.forEach((q, i) => {
             const angle = (i / quantities.length) * Math.PI * 2 - Math.PI / 2;
             q.x = centerX + Math.cos(angle) * radius;
             q.y = centerY + Math.sin(angle) * radius;
         });
 
-        let time = 0;
+        let heroTime = 0;
 
-        function animate() {
+        function animateHero() {
             const w = canvas.offsetWidth;
             const h = canvas.offsetHeight;
             ctx.clearRect(0, 0, w, h);
+            heroTime += 0.005;
 
-            time += 0.005;
-
-            // Update positions (gentle floating)
             quantities.forEach((q, i) => {
                 const angle = (i / quantities.length) * Math.PI * 2 - Math.PI / 2;
-                q.x = centerX + Math.cos(angle + time * 0.3) * radius + Math.sin(time * 0.5 + i) * 10;
-                q.y = centerY + Math.sin(angle + time * 0.3) * radius + Math.cos(time * 0.7 + i) * 8;
+                q.x = centerX + Math.cos(angle + heroTime * 0.3) * radius + Math.sin(heroTime * 0.5 + i) * 10;
+                q.y = centerY + Math.sin(angle + heroTime * 0.3) * radius + Math.cos(heroTime * 0.7 + i) * 8;
             });
 
-            // Draw forbid connections (dashed, dim)
             forbids.forEach(([a, b]) => {
                 ctx.beginPath();
                 ctx.setLineDash([4, 8]);
@@ -981,13 +1299,12 @@
                 ctx.setLineDash([]);
             });
 
-            // Draw allow connections with animated pulse
             connections.forEach(([from, to], idx) => {
                 const fromQ = quantities[from];
                 const toQ = quantities[to];
 
                 const gradient = ctx.createLinearGradient(fromQ.x, fromQ.y, toQ.x, toQ.y);
-                const pulsePos = (Math.sin(time * 3 + idx) + 1) / 2;
+                const pulsePos = (Math.sin(heroTime * 3 + idx) + 1) / 2;
 
                 gradient.addColorStop(0, fromQ.color + '40');
                 gradient.addColorStop(Math.max(0, pulsePos - 0.1), fromQ.color + '40');
@@ -1002,7 +1319,6 @@
                 ctx.lineTo(toQ.x, toQ.y);
                 ctx.stroke();
 
-                // Arrow head
                 const angle = Math.atan2(toQ.y - fromQ.y, toQ.x - fromQ.x);
                 const arrowDist = 22;
                 const ax = toQ.x - Math.cos(angle) * arrowDist;
@@ -1015,9 +1331,7 @@
                 ctx.fill();
             });
 
-            // Draw nodes
             quantities.forEach(q => {
-                // Glow
                 const grd = ctx.createRadialGradient(q.x, q.y, 0, q.x, q.y, 30);
                 grd.addColorStop(0, q.color + '30');
                 grd.addColorStop(1, 'transparent');
@@ -1026,7 +1340,6 @@
                 ctx.arc(q.x, q.y, 30, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Node circle
                 ctx.beginPath();
                 ctx.fillStyle = '#0a0a0f';
                 ctx.strokeStyle = q.color;
@@ -1035,7 +1348,6 @@
                 ctx.fill();
                 ctx.stroke();
 
-                // Label
                 ctx.fillStyle = q.color;
                 ctx.font = '600 14px "JetBrains Mono", monospace';
                 ctx.textAlign = 'center';
@@ -1043,10 +1355,201 @@
                 ctx.fillText(q.label, q.x, q.y);
             });
 
-            requestAnimationFrame(animate);
+            requestAnimationFrame(animateHero);
         }
 
-        animate();
+        animateHero();
+
+        // === Demo Canvas - Interactive Constraint Explorer ===
+        const demoCanvas = document.getElementById('demo-canvas');
+        const demoCtx = demoCanvas.getContext('2d');
+
+        function resizeDemoCanvas() {
+            demoCanvas.width = demoCanvas.offsetWidth * window.devicePixelRatio;
+            demoCanvas.height = demoCanvas.offsetHeight * window.devicePixelRatio;
+            demoCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        }
+        resizeDemoCanvas();
+        window.addEventListener('resize', resizeDemoCanvas);
+
+        const demoQuantities = [
+            { label: 'E', color: '#4ecdc4', x: 0, y: 0, active: false },
+            { label: 'I', color: '#f472b6', x: 0, y: 0, active: false },
+            { label: 'T', color: '#f97316', x: 0, y: 0, active: false },
+            { label: 'F', color: '#ef4444', x: 0, y: 0, active: false },
+            { label: 'R', color: '#a78bfa', x: 0, y: 0, active: false },
+            { label: 'L', color: '#34d399', x: 0, y: 0, active: true },
+            { label: 'P', color: '#fbbf24', x: 0, y: 0, active: false }
+        ];
+
+        const demoConnections = [
+            [5, 0], [4, 1], [0, 2], [2, 3], [5, 4], [3, 6]
+        ];
+
+        const demoForbids = [
+            [0, 1], [3, 4], [2, 5], [4, 6]
+        ];
+
+        const dw = demoCanvas.offsetWidth;
+        const dh = demoCanvas.offsetHeight;
+        const dcenterX = dw / 2;
+        const dcenterY = dh / 2;
+        const dradius = Math.min(dw, dh) * 0.3;
+
+        demoQuantities.forEach((q, i) => {
+            const angle = (i / demoQuantities.length) * Math.PI * 2 - Math.PI / 2;
+            q.x = dcenterX + Math.cos(angle) * dradius;
+            q.y = dcenterY + Math.sin(angle) * dradius;
+        });
+
+        let demoTime = 0;
+        let walkthroughStep = 0;
+        let walkthroughActive = false;
+
+        const constraintStates = {
+            'allow-L-gates-E': true,
+            'forbid-E-I': true,
+            'allow-E-gates-T': true,
+            'allow-T-gates-F': true,
+            'forbid-F-R': true,
+            'allow-F-gates-P': true
+        };
+
+        function updateConstraints() {
+            Object.keys(constraintStates).forEach(key => {
+                const checkbox = document.getElementById(key);
+                if (checkbox) {
+                    constraintStates[key] = checkbox.checked;
+                }
+            });
+        }
+
+        Object.keys(constraintStates).forEach(key => {
+            const checkbox = document.getElementById(key);
+            if (checkbox) {
+                checkbox.addEventListener('change', updateConstraints);
+            }
+        });
+
+        document.getElementById('reset-demo').addEventListener('click', () => {
+            walkthroughActive = false;
+            walkthroughStep = 0;
+            demoQuantities.forEach(q => q.active = false);
+            demoQuantities[5].active = true;
+            document.querySelectorAll('.walkthrough-step').forEach(el => el.classList.remove('active'));
+            document.querySelector('[data-step="1"]').classList.add('active');
+        });
+
+        document.getElementById('start-walkthrough').addEventListener('click', () => {
+            walkthroughActive = !walkthroughActive;
+            if (walkthroughActive) {
+                walkthroughStep = 0;
+                demoQuantities.forEach(q => q.active = false);
+                demoQuantities[5].active = true;
+            }
+        });
+
+        function animateDemo() {
+            const dw = demoCanvas.offsetWidth;
+            const dh = demoCanvas.offsetHeight;
+            demoCtx.clearRect(0, 0, dw, dh);
+            demoTime += 0.01;
+
+            if (walkthroughActive) {
+                const stepDuration = 120;
+                const currentStep = Math.floor(demoTime / stepDuration) % 5;
+
+                if (currentStep !== walkthroughStep) {
+                    walkthroughStep = currentStep;
+                    document.querySelectorAll('.walkthrough-step').forEach(el => el.classList.remove('active'));
+                    document.querySelector(`[data-step="${walkthroughStep + 1}"]`).classList.add('active');
+
+                    demoQuantities.forEach(q => q.active = false);
+                    if (walkthroughStep === 0) demoQuantities[5].active = true;
+                    if (walkthroughStep === 1) { demoQuantities[5].active = true; demoQuantities[0].active = true; }
+                    if (walkthroughStep === 2) { demoQuantities.slice(0, 4).forEach((q, i) => { if (i < 3) q.active = true; }); demoQuantities[5].active = true; }
+                    if (walkthroughStep === 3) { demoQuantities[0].active = false; demoQuantities[1].active = true; demoQuantities[5].active = true; }
+                    if (walkthroughStep === 4) demoQuantities.forEach((q, i) => q.active = Math.random() > 0.3);
+                }
+            }
+
+            demoForbids.forEach(([a, b]) => {
+                if (!constraintStates['forbid-E-I'] && a === 0 && b === 1) return;
+                if (!constraintStates['forbid-F-R'] && a === 3 && b === 4) return;
+
+                demoCtx.beginPath();
+                demoCtx.setLineDash([4, 8]);
+                demoCtx.strokeStyle = 'rgba(239, 68, 68, 0.15)';
+                demoCtx.lineWidth = 1;
+                demoCtx.moveTo(demoQuantities[a].x, demoQuantities[a].y);
+                demoCtx.lineTo(demoQuantities[b].x, demoQuantities[b].y);
+                demoCtx.stroke();
+                demoCtx.setLineDash([]);
+            });
+
+            demoConnections.forEach(([from, to]) => {
+                if (!constraintStates['allow-L-gates-E'] && from === 5 && to === 0) return;
+                if (!constraintStates['allow-E-gates-T'] && from === 0 && to === 2) return;
+                if (!constraintStates['allow-T-gates-F'] && from === 2 && to === 3) return;
+                if (!constraintStates['allow-F-gates-P'] && from === 3 && to === 6) return;
+
+                const fromQ = demoQuantities[from];
+                const toQ = demoQuantities[to];
+
+                demoCtx.beginPath();
+                demoCtx.strokeStyle = fromQ.active ? fromQ.color + 'cc' : fromQ.color + '40';
+                demoCtx.lineWidth = fromQ.active ? 3 : 2;
+                demoCtx.moveTo(fromQ.x, fromQ.y);
+                demoCtx.lineTo(toQ.x, toQ.y);
+                demoCtx.stroke();
+
+                const angle = Math.atan2(toQ.y - fromQ.y, toQ.x - fromQ.x);
+                const arrowDist = 22;
+                const ax = toQ.x - Math.cos(angle) * arrowDist;
+                const ay = toQ.y - Math.sin(angle) * arrowDist;
+                demoCtx.beginPath();
+                demoCtx.fillStyle = fromQ.active ? toQ.color + 'cc' : toQ.color + '80';
+                demoCtx.moveTo(ax + Math.cos(angle) * 8, ay + Math.sin(angle) * 8);
+                demoCtx.lineTo(ax + Math.cos(angle + 2.5) * 5, ay + Math.sin(angle + 2.5) * 5);
+                demoCtx.lineTo(ax + Math.cos(angle - 2.5) * 5, ay + Math.sin(angle - 2.5) * 5);
+                demoCtx.fill();
+            });
+
+            demoQuantities.forEach(q => {
+                const grd = demoCtx.createRadialGradient(q.x, q.y, 0, q.x, q.y, 30);
+                grd.addColorStop(0, q.color + (q.active ? '50' : '20'));
+                grd.addColorStop(1, 'transparent');
+                demoCtx.beginPath();
+                demoCtx.fillStyle = grd;
+                demoCtx.arc(q.x, q.y, 30, 0, Math.PI * 2);
+                demoCtx.fill();
+
+                demoCtx.beginPath();
+                demoCtx.fillStyle = '#1a1a2e';
+                demoCtx.strokeStyle = q.active ? q.color : q.color + '80';
+                demoCtx.lineWidth = q.active ? 3 : 2;
+                demoCtx.arc(q.x, q.y, 18, 0, Math.PI * 2);
+                demoCtx.fill();
+                demoCtx.stroke();
+
+                if (q.active) {
+                    demoCtx.beginPath();
+                    demoCtx.fillStyle = q.color + '40';
+                    demoCtx.arc(q.x, q.y, 24, 0, Math.PI * 2);
+                    demoCtx.fill();
+                }
+
+                demoCtx.fillStyle = q.active ? q.color : q.color + '80';
+                demoCtx.font = 'bold 14px "JetBrains Mono", monospace';
+                demoCtx.textAlign = 'center';
+                demoCtx.textBaseline = 'middle';
+                demoCtx.fillText(q.label, q.x, q.y);
+            });
+
+            requestAnimationFrame(animateDemo);
+        }
+
+        animateDemo();
     </script>
 </body>
 </html>
