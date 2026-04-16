@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UCE Live Demo — Universal Constraint Engine</title>
+<meta name="description" content="Interactive constraint solver demo. Define rules, discover emergent computational behaviors. No server required — runs entirely in your browser.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #12121a;
+  --bg-card: #1a1a2e;
+  --bg-card-hover: #22223a;
+  --accent-blue: #4ecdc4;
+  --accent-purple: #a78bfa;
+  --accent-orange: #f97316;
+  --accent-pink: #f472b6;
+  --accent-green: #34d399;
+  --accent-red: #ef4444;
+  --text-primary: #f0f0f5;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+  --border: #2a2a3e;
+  --glow-blue: rgba(78, 205, 196, 0.15);
+  --glow-purple: rgba(167, 139, 250, 0.15);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* === NAV === */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 1rem 2rem;
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.nav-logo {
+  font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em;
+  color: var(--accent-blue); display: flex; flex-direction: column; line-height: 1.1;
+  text-decoration: none;
+}
+.nav-logo span { color: var(--text-muted); font-weight: 400; font-size: 0.65rem; letter-spacing: 0.05em; }
+.nav-links { display: flex; gap: 2rem; align-items: center; }
+.nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+.nav-links a:hover { color: var(--accent-blue); }
+.nav-cta {
+  background: var(--accent-blue); color: var(--bg-primary); padding: 0.5rem 1.25rem;
+  border-radius: 8px; font-weight: 600; font-size: 0.85rem; text-decoration: none; transition: all 0.2s;
+}
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px var(--glow-blue); }
+
+/* === LAYOUT === */
+.app {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  grid-template-rows: auto 1fr;
+  height: 100vh;
+  padding-top: 57px;
+}
+
+.sidebar {
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 20px;
+  display: flex; flex-direction: column; gap: 16px;
+}
+
+.main-area {
+  display: flex; flex-direction: column; overflow: hidden;
+}
+
+/* === CARDS === */
+.card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px;
+}
+.card h3 {
+  font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--accent-blue); margin-bottom: 12px; font-weight: 700;
+}
+
+/* === BUTTONS === */
+.btn {
+  padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer;
+  font-size: 0.85rem; font-weight: 700; transition: all 0.2s; font-family: inherit;
+}
+.btn-primary { background: var(--accent-blue); color: var(--bg-primary); }
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 16px var(--glow-blue); }
+.btn-primary:disabled { background: var(--text-muted); cursor: not-allowed; transform: none; box-shadow: none; }
+.btn-sm { padding: 6px 12px; font-size: 0.75rem; }
+.btn-outline {
+  background: transparent; border: 1px solid var(--border); color: var(--text-secondary);
+}
+.btn-outline:hover { background: var(--bg-card-hover); border-color: var(--accent-blue); color: var(--text-primary); }
+.btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* === FORM === */
+textarea, select {
+  width: 100%; padding: 10px; border: 1px solid var(--border);
+  border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;
+  resize: vertical; background: var(--bg-primary); color: var(--text-primary);
+  line-height: 1.5;
+}
+textarea:focus, select:focus { outline: none; border-color: var(--accent-blue); }
+select { cursor: pointer; }
+label { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 6px; }
+
+/* === TABS === */
+.tabs {
+  display: flex; border-bottom: 1px solid var(--border); background: var(--bg-secondary);
+}
+.tab {
+  padding: 12px 24px; font-size: 0.85rem; font-weight: 600; cursor: pointer;
+  border-bottom: 2px solid transparent; margin-bottom: -1px; color: var(--text-muted);
+  transition: all 0.2s;
+}
+.tab.active { color: var(--accent-blue); border-bottom-color: var(--accent-blue); }
+.tab:hover { color: var(--text-primary); }
+
+/* === GRAPH === */
+#graph-container { flex: 1; position: relative; background: var(--bg-primary); }
+#cy { width: 100%; height: 100%; }
+
+/* === REPORT === */
+.report-panel { padding: 24px; overflow-y: auto; max-height: 100%; }
+.metric {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  padding: 8px 14px; border-radius: 20px; font-size: 0.85rem; margin: 4px;
+}
+.metric .val { font-weight: 800; color: var(--accent-blue); }
+.behavior-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+  padding: 16px; margin: 12px 0;
+}
+.behavior-card h4 {
+  font-size: 0.9rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
+}
+.behavior-card p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; }
+.badge {
+  display: inline-block; padding: 3px 10px; border-radius: 10px; font-size: 0.7rem;
+  font-weight: 700; color: white; text-transform: uppercase; letter-spacing: 0.05em;
+}
+.badge-red { background: var(--accent-red); }
+.badge-orange { background: var(--accent-orange); }
+.badge-green { background: var(--accent-green); }
+.badge-blue { background: #3b82f6; }
+.badge-purple { background: var(--accent-purple); }
+.badge-pink { background: var(--accent-pink); }
+
+/* === TABLES === */
+.state-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin: 8px 0; }
+.state-table th {
+  background: var(--bg-card); color: var(--accent-blue); padding: 8px 12px;
+  text-align: left; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--accent-blue);
+}
+.state-table td { padding: 7px 12px; border-bottom: 1px solid var(--border); color: var(--text-secondary); }
+.state-table tr:hover td { background: var(--bg-card); }
+
+/* === STATUS BAR === */
+.status-bar {
+  padding: 8px 20px; background: var(--bg-secondary); border-top: 1px solid var(--border);
+  font-size: 0.8rem; color: var(--text-muted); display: flex; justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+}
+.status-bar .running { color: var(--accent-orange); font-weight: 600; }
+.status-bar .done { color: var(--accent-green); font-weight: 600; }
+.status-bar .error { color: var(--accent-red); font-weight: 600; }
+
+/* === SUMMARY CARD === */
+#summary-card { display: none; }
+#summary-card.visible { display: block; }
+
+/* === SPINNER === */
+.spinner {
+  display: inline-block; width: 14px; height: 14px; border: 2px solid var(--text-muted);
+  border-top-color: var(--accent-blue); border-radius: 50%; animation: spin 0.6s linear infinite;
+  vertical-align: middle; margin-right: 6px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* === EMPTY STATE === */
+.empty-state {
+  display: flex; align-items: center; justify-content: center; height: 100%;
+  color: var(--text-muted); font-size: 0.95rem; text-align: center; padding: 40px;
+}
+
+/* === FOOTER === */
+footer {
+  grid-column: 1 / -1;
+  text-align: center; padding: 12px; border-top: 1px solid var(--border);
+  color: var(--text-muted); font-size: 0.75rem; background: var(--bg-secondary);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 900px) {
+  .app { grid-template-columns: 1fr; grid-template-rows: auto auto 1fr; }
+  .sidebar { max-height: 40vh; }
+  .nav-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">UCE<span>by Bee Tree Holdings LLC</span></a>
+  <div class="nav-links">
+    <a href="index.html#what-is-this">How It Works</a>
+    <a href="demo.html" style="color: var(--accent-blue);">Live Demo</a>
+    <a href="index.html#architecture">Architecture</a>
+    <a href="index.html#patents">Patents</a>
+    <a href="index.html#research">Research</a>
+    <a href="index.html#early-access" class="nav-cta">Early Access</a>
+  </div>
+</nav>
+
+<div class="app">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="card">
+      <h3>Constraint Rule Set</h3>
+      <label>Load Preset Example</label>
+      <select id="example-select">
+        <option value="">— choose an example —</option>
+        <option value="cso">Cross-Strand Oscillator (C, S, O)</option>
+        <option value="sr_latch">SR Latch (S, R, Q)</option>
+        <option value="repressilator">Repressilator (A, B, C, D)</option>
+        <option value="memory_cell">Memory Cell (D, WE, Q)</option>
+      </select>
+      <div style="margin-top: 14px;">
+        <label>Rule Set JSON</label>
+        <textarea id="ruleset-input" rows="18" spellcheck="false" placeholder='{
+  "name": "My Rules",
+  "quantities": [
+    {"name": "A", "values": [0, 1]},
+    {"name": "B", "values": [0, 1]}
+  ],
+  "rules": [
+    {"rule_type": "allow_toggle", "target": "A", "condition": {"B": 1}}
+  ]
+}'></textarea>
+      </div>
+      <div style="margin-top: 12px;" class="btn-row">
+        <button class="btn btn-primary" id="solve-btn" onclick="runSolve()">Solve</button>
+        <button class="btn btn-outline btn-sm" onclick="formatJSON()">Format</button>
+        <button class="btn btn-outline btn-sm" onclick="clearAll()">Clear</button>
+      </div>
+    </div>
+
+    <div class="card" id="summary-card">
+      <h3>Analysis Summary</h3>
+      <div id="summary-metrics"></div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main-area">
+    <div class="tabs">
+      <div class="tab active" data-tab="graph" onclick="switchTab('graph')">Graph</div>
+      <div class="tab" data-tab="report" onclick="switchTab('report')">Emergent Behaviors</div>
+      <div class="tab" data-tab="states" onclick="switchTab('states')">States</div>
+      <div class="tab" data-tab="transitions" onclick="switchTab('transitions')">Transitions</div>
+    </div>
+
+    <div id="tab-graph" style="flex:1; display:flex; flex-direction:column;">
+      <div id="graph-container">
+        <div id="cy"></div>
+        <div class="empty-state" id="graph-empty">
+          <div>
+            <div style="font-size: 2.5rem; margin-bottom: 12px; opacity: 0.3;">&#9881;</div>
+            <div>Load a preset or define your own rules, then click <strong>Solve</strong>.</div>
+            <div style="margin-top: 8px; font-size: 0.8rem; color: var(--text-muted);">
+              The solver runs entirely in your browser — no server, no data sent anywhere.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="tab-report" style="display:none; flex:1; overflow:auto;">
+      <div class="report-panel" id="report-content">
+        <div class="empty-state">Solve a rule set to see emergent behavior analysis.</div>
+      </div>
+    </div>
+    <div id="tab-states" style="display:none; flex:1; overflow:auto; padding:20px;">
+      <div id="states-content"></div>
+    </div>
+    <div id="tab-transitions" style="display:none; flex:1; overflow:auto; padding:20px;">
+      <div id="transitions-content"></div>
+    </div>
+
+    <div class="status-bar">
+      <span id="status-text">Ready</span>
+      <span id="status-time"></span>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2026 Bee Tree Holdings LLC. All rights reserved. Patent pending.
+    &nbsp;|&nbsp; <a href="https://doi.org/10.5281/zenodo.19600206" target="_blank" style="color: var(--accent-blue); text-decoration: none;">Read the Paper (DOI)</a>
+  </footer>
+</div>
+
+<!-- Cytoscape.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.28.1/cytoscape.min.js"></script>
+
+<script>
+// ============================================================
+// UCE Constraint Solver — JavaScript Port
+// Runs entirely client-side. No server. No IP exposed.
+// ============================================================
+
+const PRESETS = {
+  cso: {
+    name: "Cross-Strand Oscillator (CSO)",
+    description: "Three binary quantities with allow/forbid toggle constraints producing emergent oscillation.",
+    quantities: [
+      {name: "C", values: [0,1]},
+      {name: "S", values: [0,1]},
+      {name: "O", values: [0,1]},
+    ],
+    rules: [
+      {rule_type: "allow_toggle", target: "C", condition: {S: 1}},
+      {rule_type: "allow_toggle", target: "S", condition: {O: 1}},
+      {rule_type: "allow_toggle", target: "O", condition: {C: 1}},
+      {rule_type: "forbid_simultaneous", target: "", targets: ["C","S"]},
+      {rule_type: "forbid_simultaneous", target: "", targets: ["S","O"]},
+    ],
+  },
+  sr_latch: {
+    name: "SR Latch",
+    description: "Set-Reset latch with two inputs (S, R) and one output (Q).",
+    quantities: [
+      {name: "S", values: [0,1]},
+      {name: "R", values: [0,1]},
+      {name: "Q", values: [0,1]},
+    ],
+    rules: [
+      {rule_type: "allow_toggle", target: "Q", condition: {S: 1}},
+      {rule_type: "forbid_toggle", target: "Q", condition: {R: 1}},
+      {rule_type: "forbid_simultaneous", target: "", targets: ["S","R"]},
+    ],
+  },
+  repressilator: {
+    name: "Repressilator",
+    description: "Four-quantity oscillatory network inspired by synthetic biology toggle switches.",
+    quantities: [
+      {name: "A", values: [0,1]},
+      {name: "B", values: [0,1]},
+      {name: "C", values: [0,1]},
+      {name: "D", values: [0,1]},
+    ],
+    rules: [
+      {rule_type: "allow_toggle", target: "A", condition: {D: 1}},
+      {rule_type: "allow_toggle", target: "B", condition: {A: 1}},
+      {rule_type: "allow_toggle", target: "C", condition: {B: 1}},
+      {rule_type: "allow_toggle", target: "D", condition: {C: 1}},
+      {rule_type: "forbid_simultaneous", target: "", targets: ["A","B"]},
+    ],
+  },
+  memory_cell: {
+    name: "Memory Cell",
+    description: "Write-enable gated memory with data input, write-enable, and stored output.",
+    quantities: [
+      {name: "D", values: [0,1]},
+      {name: "WE", values: [0,1]},
+      {name: "Q", values: [0,1]},
+    ],
+    rules: [
+      {rule_type: "allow_toggle", target: "Q", condition: {WE: 1}},
+      {rule_type: "forbid_toggle", target: "Q", condition: {WE: 0}},
+    ],
+  },
+};
+
+// ---- Solver ----
+
+class ConstraintSolver {
+  constructor(ruleSet) {
+    this.ruleSet = ruleSet;
+    this.states = [];
+    this.validStates = [];
+    this.transitions = [];
+    this.allowedTransitions = [];
+    this.forbiddenTransitions = [];
+    this.emergentBehaviors = [];
+  }
+
+  solve() {
+    this._enumerateStates();
+    this._eliminateForbiddenStates();
+    this._buildTransitionGraph();
+    this._applyConstraints();
+    this._detectEmergentBehaviors();
+    return this._buildResult();
+  }
+
+  // Stage 1: Enumerate all possible states
+  _enumerateStates() {
+    const names = this.ruleSet.quantities.map(q => q.name);
+    const valueRanges = this.ruleSet.quantities.map(q => q.values);
+    const combos = cartesianProduct(valueRanges);
+    combos.forEach((combo, idx) => {
+      const values = {};
+      names.forEach((n, i) => values[n] = combo[i]);
+      this.states.push({ values, id: idx, label: makeLabel(values) });
+    });
+  }
+
+  // Stage 2: Remove states violating forbid_simultaneous
+  _eliminateForbiddenStates() {
+    const forbidRules = this.ruleSet.rules.filter(r => r.rule_type === 'forbid_simultaneous');
+    for (const state of this.states) {
+      let forbidden = false;
+      for (const rule of forbidRules) {
+        const targets = rule.targets || [];
+        if (rule.condition) {
+          const condMet = Object.entries(rule.condition).every(([k, v]) => state.values[k] === v);
+          if (!condMet) continue;
+        }
+        if (targets.length && targets.every(t => state.values[t] === 1)) {
+          forbidden = true;
+          break;
+        }
+      }
+      if (!forbidden) this.validStates.push(state);
+    }
+    this.validStates.forEach((s, i) => s.id = i);
+  }
+
+  // Stage 3: Build transition graph (single-quantity toggles)
+  _buildTransitionGraph() {
+    const validMap = new Map();
+    this.validStates.forEach(s => validMap.set(stateHash(s), s));
+
+    for (const state of this.validStates) {
+      for (const qty of this.ruleSet.quantities) {
+        const name = qty.name;
+        const currentVal = state.values[name];
+        for (const newVal of qty.values) {
+          if (newVal === currentVal) continue;
+          const newValues = { ...state.values, [name]: newVal };
+          const h = hashValues(newValues);
+          if (validMap.has(h)) {
+            this.transitions.push({
+              fromState: state,
+              toState: validMap.get(h),
+              toggled: [name],
+              allowed: true,
+              reason: '',
+            });
+          }
+        }
+      }
+    }
+  }
+
+  // Stage 4: Apply constraint rules
+  _applyConstraints() {
+    for (const t of this.transitions) {
+      const [allowed, reason] = this._evaluateTransition(t);
+      t.allowed = allowed;
+      t.reason = reason;
+      if (allowed) this.allowedTransitions.push(t);
+      else this.forbiddenTransitions.push(t);
+    }
+  }
+
+  _evaluateTransition(t) {
+    const fromState = t.fromState;
+    const toggledQty = t.toggled[0];
+
+    // forbid_toggle: ANY matching forbid blocks
+    for (const rule of this.ruleSet.rules) {
+      if (rule.rule_type === 'forbid_toggle' && rule.target === toggledQty) {
+        if (!rule.condition) return [false, `forbid_toggle(${rule.target})`];
+        const condMet = Object.entries(rule.condition).every(([k, v]) => fromState.values[k] === v);
+        if (condMet) return [false, `forbid_toggle(${rule.target}) when ${JSON.stringify(rule.condition)}`];
+      }
+    }
+
+    // allow_toggle: OR semantics — at least one must pass
+    const allowRules = this.ruleSet.rules.filter(r => r.rule_type === 'allow_toggle' && r.target === toggledQty);
+    if (allowRules.length > 0) {
+      let anyAllows = false;
+      for (const rule of allowRules) {
+        if (!rule.condition) { anyAllows = true; break; }
+        const condMet = Object.entries(rule.condition).every(([k, v]) => fromState.values[k] === v);
+        if (condMet) { anyAllows = true; break; }
+      }
+      if (!anyAllows) {
+        return [false, `allow_toggle(${toggledQty}) — no condition met`];
+      }
+    }
+
+    return [true, 'allowed'];
+  }
+
+  // Stage 5: Detect emergent behaviors
+  _detectEmergentBehaviors() {
+    const outgoing = this._buildOutgoing();
+    this._detectAttractors(outgoing);
+    this._detectAttractorCycles(outgoing);
+    this._detectMetastable(outgoing);
+    this._detectHysteresis(outgoing);
+    this._detectMemory();
+    this._detectLogic();
+  }
+
+  _buildOutgoing() {
+    const outgoing = {};
+    this.validStates.forEach(s => outgoing[s.label] = new Set());
+    this.allowedTransitions.forEach(t => outgoing[t.fromState.label].add(t.toState.label));
+    return outgoing;
+  }
+
+  _detectAttractors(outgoing) {
+    const attractorStates = this.validStates.filter(s => (outgoing[s.label] || new Set()).size === 0);
+    if (attractorStates.length > 0) {
+      this.emergentBehaviors.push({
+        type: 'attractor',
+        description: `${attractorStates.length} attractor state(s) with no outgoing transitions`,
+        states: attractorStates.map(s => s.label),
+        metadata: {},
+      });
+    }
+  }
+
+  _detectAttractorCycles(outgoing) {
+    // Tarjan's SCC algorithm
+    let indexCounter = 0;
+    const stack = [];
+    const onStack = new Set();
+    const indexMap = {};
+    const lowlink = {};
+    const sccs = [];
+
+    const strongconnect = (node) => {
+      indexMap[node] = indexCounter;
+      lowlink[node] = indexCounter;
+      indexCounter++;
+      stack.push(node);
+      onStack.add(node);
+
+      for (const neighbor of (outgoing[node] || new Set())) {
+        if (!(neighbor in indexMap)) {
+          strongconnect(neighbor);
+          lowlink[node] = Math.min(lowlink[node], lowlink[neighbor]);
+        } else if (onStack.has(neighbor)) {
+          lowlink[node] = Math.min(lowlink[node], indexMap[neighbor]);
+        }
+      }
+
+      if (lowlink[node] === indexMap[node]) {
+        const scc = [];
+        while (true) {
+          const w = stack.pop();
+          onStack.delete(w);
+          scc.push(w);
+          if (w === node) break;
+        }
+        sccs.push(scc);
+      }
+    };
+
+    for (const state of this.validStates) {
+      if (!(state.label in indexMap)) strongconnect(state.label);
+    }
+
+    for (const sccLabels of sccs) {
+      if (sccLabels.length < 2) continue;
+      const sccSet = new Set(sccLabels);
+      let hasExit = false;
+      for (const label of sccLabels) {
+        for (const neighbor of (outgoing[label] || new Set())) {
+          if (!sccSet.has(neighbor)) { hasExit = true; break; }
+        }
+        if (hasExit) break;
+      }
+
+      if (!hasExit) {
+        this.emergentBehaviors.push({
+          type: 'oscillator',
+          description: `Attractor cycle of ${sccLabels.length} states: ${sccLabels.join(' → ')}`,
+          states: sccLabels,
+          metadata: { cycle: sccLabels },
+        });
+      }
+    }
+  }
+
+  _detectMetastable(outgoing) {
+    const attractors = new Set(
+      this.validStates.filter(s => (outgoing[s.label] || new Set()).size === 0).map(s => s.label)
+    );
+
+    for (const state of this.validStates) {
+      if (attractors.has(state.label)) continue;
+      const reachable = new Set();
+      const visited = new Set();
+      const queue = [state.label];
+      while (queue.length) {
+        const current = queue.shift();
+        if (visited.has(current)) continue;
+        visited.add(current);
+        if (attractors.has(current)) { reachable.add(current); continue; }
+        for (const neighbor of (outgoing[current] || new Set())) queue.push(neighbor);
+      }
+      if (reachable.size > 1) {
+        this.emergentBehaviors.push({
+          type: 'metastable',
+          description: `State ${state.label} can reach multiple attractors: ${[...reachable].join(', ')}`,
+          states: [state.label],
+          metadata: { reachable_attractors: [...reachable] },
+        });
+      }
+    }
+  }
+
+  _detectHysteresis(outgoing) {
+    for (const t of this.allowedTransitions) {
+      const a = t.fromState.label;
+      const b = t.toState.label;
+      if (!(outgoing[b] || new Set()).has(a)) {
+        const path = this._findPath(b, a, outgoing);
+        if (path.length > 2) {
+          this.emergentBehaviors.push({
+            type: 'hysteresis',
+            description: `Asymmetric path: ${a} → ${b} (direct) vs ${path.join(' → ')} (reverse)`,
+            states: [],
+            metadata: { forward: [a, b], reverse: path },
+          });
+          return;
+        }
+      }
+    }
+  }
+
+  _findPath(start, end, graph, maxDepth = 10) {
+    if (start === end) return [start];
+    const visited = new Set([start]);
+    const queue = [[start]];
+    while (queue.length) {
+      const path = queue.shift();
+      if (path.length > maxDepth) continue;
+      const current = path[path.length - 1];
+      for (const neighbor of (graph[current] || new Set())) {
+        if (neighbor === end) return [...path, neighbor];
+        if (!visited.has(neighbor)) {
+          visited.add(neighbor);
+          queue.push([...path, neighbor]);
+        }
+      }
+    }
+    return [];
+  }
+
+  _detectMemory() {
+    for (const qty of this.ruleSet.quantities) {
+      const toggles = this.allowedTransitions.filter(t => t.toggled.includes(qty.name));
+      const nonToggles = this.forbiddenTransitions.filter(t => t.toggled.includes(qty.name));
+      if (toggles.length > 0 && nonToggles.length > 0) {
+        const enablingConditions = new Set();
+        for (const t of toggles) {
+          const parts = [];
+          for (const oq of this.ruleSet.quantities) {
+            if (oq.name !== qty.name) parts.push(`${oq.name}=${t.fromState.values[oq.name]}`);
+          }
+          enablingConditions.add(parts.join(', '));
+        }
+        if (enablingConditions.size < this.validStates.length / 2) {
+          this.emergentBehaviors.push({
+            type: 'memory',
+            description: `Quantity '${qty.name}' retains its value unless specific conditions are met`,
+            states: [],
+            metadata: { quantity: qty.name, toggle_count: toggles.length, blocked_count: nonToggles.length },
+          });
+        }
+      }
+    }
+  }
+
+  _detectLogic() {
+    for (const qty of this.ruleSet.quantities) {
+      const toggles = this.allowedTransitions.filter(t => t.toggled.includes(qty.name));
+      if (!toggles.length) continue;
+      for (const ctrlQty of this.ruleSet.quantities) {
+        if (ctrlQty.name === qty.name) continue;
+        const enables = toggles.filter(t => t.fromState.values[ctrlQty.name] === 1);
+        const disables = toggles.filter(t => t.fromState.values[ctrlQty.name] === 0);
+        if (enables.length > 0 && disables.length === 0) {
+          this.emergentBehaviors.push({
+            type: 'logic',
+            description: `Quantity '${ctrlQty.name}' gates '${qty.name}' (logic-like behavior)`,
+            states: [],
+            metadata: { gate: ctrlQty.name, target: qty.name, gate_type: 'enable' },
+          });
+        }
+      }
+    }
+  }
+
+  _buildResult() {
+    return {
+      name: this.ruleSet.name,
+      description: this.ruleSet.description || '',
+      totalStates: this.states.length,
+      validStates: this.validStates,
+      allowedTransitions: this.allowedTransitions,
+      forbiddenTransitions: this.forbiddenTransitions,
+      emergentBehaviors: this.emergentBehaviors,
+    };
+  }
+}
+
+// ---- Helpers ----
+
+function cartesianProduct(arrays) {
+  if (arrays.length === 0) return [[]];
+  const [first, ...rest] = arrays;
+  const restProduct = cartesianProduct(rest);
+  const result = [];
+  for (const val of first) {
+    for (const combo of restProduct) {
+      result.push([val, ...combo]);
+    }
+  }
+  return result;
+}
+
+function makeLabel(values) {
+  return Object.keys(values).sort().map(k => `${k}${values[k]}`).join('_');
+}
+
+function stateHash(state) {
+  return hashValues(state.values);
+}
+
+function hashValues(values) {
+  return Object.keys(values).sort().map(k => `${k}:${values[k]}`).join('|');
+}
+
+
+// ============================================================
+// UI Logic
+// ============================================================
+
+let cy = null;
+let lastResult = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+  initGraph();
+  document.getElementById('example-select').addEventListener('change', function() {
+    if (this.value && PRESETS[this.value]) {
+      document.getElementById('ruleset-input').value = JSON.stringify(PRESETS[this.value], null, 2);
+      setStatus('done', 'Preset loaded: ' + PRESETS[this.value].name);
+    }
+  });
+});
+
+function initGraph() {
+  cy = cytoscape({
+    container: document.getElementById('cy'),
+    style: [
+      { selector: 'node', style: {
+        'label': 'data(label)', 'text-valign': 'center', 'text-halign': 'center',
+        'font-size': '9px', 'font-family': 'JetBrains Mono, monospace',
+        'width': 55, 'height': 55, 'border-width': 2, 'border-color': '#4ecdc4',
+        'background-color': '#1a1a2e', 'color': '#f0f0f5', 'text-wrap': 'wrap',
+        'text-max-width': '50px',
+      }},
+      { selector: 'node[type="attractor"]', style: {
+        'background-color': '#2d1620', 'border-color': '#ef4444', 'border-width': 3,
+        'width': 65, 'height': 65, 'color': '#ef4444',
+      }},
+      { selector: 'node[type="oscillator"]', style: {
+        'background-color': '#1a2020', 'border-color': '#34d399', 'border-width': 3,
+        'color': '#34d399',
+      }},
+      { selector: 'node[type="metastable"]', style: {
+        'background-color': '#2d2a1a', 'border-color': '#f97316',
+        'color': '#f97316',
+      }},
+      { selector: 'node:selected', style: {
+        'border-color': '#a78bfa', 'border-width': 4,
+        'overlay-color': '#a78bfa', 'overlay-opacity': 0.1,
+      }},
+      { selector: 'edge', style: {
+        'width': 2, 'line-color': '#34d399', 'target-arrow-color': '#34d399',
+        'target-arrow-shape': 'triangle', 'curve-style': 'bezier',
+        'arrow-scale': 1.1, 'opacity': 0.6,
+      }},
+      { selector: 'edge[label]', style: {
+        'label': 'data(label)', 'font-size': '7px', 'color': '#6b7280',
+        'text-rotation': 'autorotate', 'text-margin-y': -8,
+        'font-family': 'JetBrains Mono, monospace',
+      }},
+    ],
+    layout: { name: 'circle', padding: 50 },
+    minZoom: 0.3, maxZoom: 3,
+  });
+}
+
+function runSolve() {
+  const input = document.getElementById('ruleset-input').value.trim();
+  if (!input) { setStatus('error', 'No rule set entered'); return; }
+
+  let data;
+  try { data = JSON.parse(input); }
+  catch (e) { setStatus('error', 'Invalid JSON: ' + e.message); return; }
+
+  if (!data.quantities || !data.rules) {
+    setStatus('error', 'JSON must have "quantities" and "rules" fields');
+    return;
+  }
+
+  // Safety check: limit state space to prevent browser hang
+  const totalStates = data.quantities.reduce((acc, q) => acc * (q.values || [0,1]).length, 1);
+  if (totalStates > 65536) {
+    setStatus('error', `State space too large (${totalStates} states). Max 65,536 for browser demo.`);
+    return;
+  }
+
+  const btn = document.getElementById('solve-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Solving';
+  setStatus('running', 'Solving...');
+  document.getElementById('graph-empty').style.display = 'none';
+
+  const t0 = performance.now();
+
+  // Use setTimeout to let UI update before blocking solve
+  setTimeout(() => {
+    try {
+      // Normalize quantity values
+      data.quantities = data.quantities.map(q => ({
+        name: q.name,
+        values: q.values || [0, 1],
+      }));
+
+      // Normalize rule conditions (string keys to int values)
+      data.rules = data.rules.map(r => {
+        const normalized = { ...r };
+        if (normalized.condition) {
+          const c = {};
+          for (const [k, v] of Object.entries(normalized.condition)) {
+            c[k] = typeof v === 'string' ? parseInt(v) : v;
+          }
+          normalized.condition = c;
+        }
+        return normalized;
+      });
+
+      const solver = new ConstraintSolver(data);
+      lastResult = solver.solve();
+      const elapsed = ((performance.now() - t0) / 1000).toFixed(3);
+
+      renderGraph(lastResult);
+      renderSummary(lastResult);
+      renderReport(lastResult);
+      renderStatesTable(lastResult);
+      renderTransitionsTable(lastResult);
+
+      setStatus('done',
+        `${lastResult.validStates.length} valid states, ` +
+        `${lastResult.allowedTransitions.length} transitions, ` +
+        `${lastResult.emergentBehaviors.length} emergent behaviors`
+      );
+      document.getElementById('status-time').textContent = elapsed + 's';
+
+    } catch (e) {
+      setStatus('error', 'Solver error: ' + e.message);
+      console.error(e);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Solve';
+    }
+  }, 50);
+}
+
+// ---- Graph Rendering ----
+
+function renderGraph(result) {
+  cy.elements().remove();
+
+  // Classify node types
+  const outgoing = {};
+  result.validStates.forEach(s => outgoing[s.label] = new Set());
+  result.allowedTransitions.forEach(t => outgoing[t.fromState.label].add(t.toState.label));
+
+  const attractorLabels = new Set(
+    result.validStates.filter(s => (outgoing[s.label] || new Set()).size === 0).map(s => s.label)
+  );
+
+  const oscillatorLabels = new Set();
+  result.emergentBehaviors.filter(b => b.type === 'oscillator').forEach(b => {
+    b.states.forEach(s => oscillatorLabels.add(s));
+  });
+
+  const metastableLabels = new Set();
+  result.emergentBehaviors.filter(b => b.type === 'metastable').forEach(b => {
+    b.states.forEach(s => metastableLabels.add(s));
+  });
+
+  const elements = [];
+
+  result.validStates.forEach(s => {
+    let type = 'normal';
+    if (attractorLabels.has(s.label)) type = 'attractor';
+    else if (oscillatorLabels.has(s.label)) type = 'oscillator';
+    else if (metastableLabels.has(s.label)) type = 'metastable';
+
+    elements.push({ data: {
+      id: s.label,
+      label: s.label.replace(/_/g, '\n'),
+      type: type,
+      fullLabel: s.label,
+      values: s.values,
+    }});
+  });
+
+  result.allowedTransitions.forEach((t, i) => {
+    elements.push({ data: {
+      id: 'e' + i,
+      source: t.fromState.label,
+      target: t.toState.label,
+      label: t.toggled.join(','),
+    }});
+  });
+
+  cy.add(elements);
+
+  // Layout: concentric with attractors in center
+  cy.layout({
+    name: 'concentric',
+    concentric: (node) => {
+      if (node.data('type') === 'attractor') return 3;
+      if (node.data('type') === 'oscillator') return 2;
+      if (node.data('type') === 'metastable') return 2;
+      return 1;
+    },
+    levelWidth: () => 1,
+    padding: 60,
+    minNodeSpacing: 40,
+    animate: true,
+    animationDuration: 400,
+  }).run();
+}
+
+// ---- Summary ----
+
+function renderSummary(result) {
+  const card = document.getElementById('summary-card');
+  card.classList.add('visible');
+
+  const byType = {};
+  result.emergentBehaviors.forEach(b => {
+    byType[b.type] = (byType[b.type] || 0) + 1;
+  });
+
+  let html = '<div style="display:flex; flex-wrap:wrap; gap:6px;">';
+  html += metricHTML('States', result.totalStates);
+  html += metricHTML('Valid', result.validStates.length);
+  html += metricHTML('Transitions', result.allowedTransitions.length);
+  html += metricHTML('Forbidden', result.forbiddenTransitions.length);
+  if (byType.attractor) html += metricHTML('Attractors', byType.attractor);
+  if (byType.oscillator) html += metricHTML('Oscillators', byType.oscillator);
+  if (byType.memory) html += metricHTML('Memory', byType.memory);
+  if (byType.logic) html += metricHTML('Logic', byType.logic);
+  if (byType.hysteresis) html += metricHTML('Hysteresis', byType.hysteresis);
+  if (byType.metastable) html += metricHTML('Metastable', byType.metastable);
+  html += '</div>';
+
+  document.getElementById('summary-metrics').innerHTML = html;
+}
+
+function metricHTML(label, val) {
+  return `<span class="metric"><span class="val">${val}</span> ${label}</span>`;
+}
+
+// ---- Report ----
+
+function renderReport(result) {
+  const behaviors = result.emergentBehaviors;
+  if (behaviors.length === 0) {
+    document.getElementById('report-content').innerHTML =
+      '<div class="empty-state">No emergent behaviors detected in this rule set.</div>';
+    return;
+  }
+
+  const badgeFor = {
+    attractor: 'badge-red', oscillator: 'badge-green', metastable: 'badge-orange',
+    hysteresis: 'badge-blue', memory: 'badge-purple', logic: 'badge-pink',
+  };
+
+  let html = '';
+  behaviors.forEach(b => {
+    const badge = badgeFor[b.type] || 'badge-blue';
+    html += `<div class="behavior-card">
+      <h4><span class="badge ${badge}">${b.type}</span></h4>
+      <p>${b.description}</p>`;
+    if (b.states && b.states.length > 0) {
+      html += `<p style="margin-top: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--accent-blue);">${b.states.join(', ')}</p>`;
+    }
+    html += '</div>';
+  });
+
+  document.getElementById('report-content').innerHTML = html;
+}
+
+// ---- States Table ----
+
+function renderStatesTable(result) {
+  if (result.validStates.length === 0) {
+    document.getElementById('states-content').innerHTML = '<div class="empty-state">No valid states.</div>';
+    return;
+  }
+  const qtyNames = Object.keys(result.validStates[0].values).sort();
+  let html = '<table class="state-table"><tr><th>#</th><th>Label</th>';
+  qtyNames.forEach(n => html += `<th>${n}</th>`);
+  html += '</tr>';
+  result.validStates.forEach((s, i) => {
+    html += `<tr><td>${i}</td><td style="font-family:'JetBrains Mono',monospace; color:var(--text-primary); font-weight:600;">${s.label}</td>`;
+    qtyNames.forEach(n => {
+      const v = s.values[n];
+      const color = v === 1 ? 'var(--accent-green)' : 'var(--text-muted)';
+      html += `<td style="color:${color}; font-weight:${v ? 700 : 400}; font-family:'JetBrains Mono',monospace;">${v}</td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</table>';
+  document.getElementById('states-content').innerHTML = html;
+}
+
+// ---- Transitions Table ----
+
+function renderTransitionsTable(result) {
+  if (result.allowedTransitions.length === 0) {
+    document.getElementById('transitions-content').innerHTML = '<div class="empty-state">No allowed transitions.</div>';
+    return;
+  }
+  let html = '<table class="state-table"><tr><th>From</th><th>To</th><th>Toggled</th><th>Reason</th></tr>';
+  result.allowedTransitions.forEach(t => {
+    html += `<tr>
+      <td style="font-family:'JetBrains Mono',monospace;">${t.fromState.label}</td>
+      <td style="font-family:'JetBrains Mono',monospace;">${t.toState.label}</td>
+      <td style="color:var(--accent-blue); font-weight:700;">${t.toggled.join(', ')}</td>
+      <td style="font-size:0.75rem;">${t.reason}</td>
+    </tr>`;
+  });
+  html += '</table>';
+
+  if (result.forbiddenTransitions.length > 0) {
+    html += `<h3 style="margin-top:24px; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--accent-red); margin-bottom:12px;">Forbidden Transitions (${result.forbiddenTransitions.length})</h3>`;
+    html += '<table class="state-table"><tr><th>From</th><th>To</th><th>Toggled</th><th>Reason</th></tr>';
+    result.forbiddenTransitions.forEach(t => {
+      html += `<tr>
+        <td style="font-family:'JetBrains Mono',monospace;">${t.fromState.label}</td>
+        <td style="font-family:'JetBrains Mono',monospace;">${t.toState.label}</td>
+        <td style="color:var(--accent-red); font-weight:700;">${t.toggled.join(', ')}</td>
+        <td style="font-size:0.75rem; color:var(--accent-red);">${t.reason}</td>
+      </tr>`;
+    });
+    html += '</table>';
+  }
+
+  document.getElementById('transitions-content').innerHTML = html;
+}
+
+// ---- Tabs ----
+
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.tab[data-tab="${name}"]`).classList.add('active');
+  ['graph', 'report', 'states', 'transitions'].forEach(t => {
+    document.getElementById('tab-' + t).style.display = t === name ? 'flex' : 'none';
+  });
+  if (name === 'graph' && cy) cy.resize();
+}
+
+// ---- Utilities ----
+
+function formatJSON() {
+  const el = document.getElementById('ruleset-input');
+  try {
+    const data = JSON.parse(el.value);
+    el.value = JSON.stringify(data, null, 2);
+    setStatus('done', 'Formatted');
+  } catch (e) { setStatus('error', 'Invalid JSON'); }
+}
+
+function clearAll() {
+  document.getElementById('ruleset-input').value = '';
+  document.getElementById('example-select').value = '';
+  document.getElementById('summary-card').classList.remove('visible');
+  document.getElementById('report-content').innerHTML =
+    '<div class="empty-state">Solve a rule set to see emergent behavior analysis.</div>';
+  document.getElementById('states-content').innerHTML = '';
+  document.getElementById('transitions-content').innerHTML = '';
+  document.getElementById('graph-empty').style.display = 'flex';
+  if (cy) cy.elements().remove();
+  lastResult = null;
+  setStatus('done', 'Cleared');
+}
+
+function setStatus(type, text) {
+  const el = document.getElementById('status-text');
+  el.className = type;
+  el.textContent = text;
+  if (type !== 'running') document.getElementById('status-time').textContent = '';
+}
+</script>
+</body>
+</html>
