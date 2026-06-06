@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UCE — Universal Constraint Engine | Neuromorphic Computing Reimagined</title>
     <meta name="description" content="The Universal Constraint Engine discovers emergent computational behaviors from simple constraint rules. Patent-pending neuromorphic architecture by Bee Tree Holdings LLC.">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <meta property="og:title" content="UCE — Universal Constraint Engine">
+    <meta property="og:description" content="Define constraints. Discover behaviors. No programming required. Patent-pending neuromorphic architecture.">
+    <meta property="og:image" content="https://www.universalconstraintengine.net/assets/og_image.png">
+    <meta property="og:url" content="https://www.universalconstraintengine.net">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@UCEngine">
+    <meta name="twitter:title" content="UCE — Universal Constraint Engine">
+    <meta name="twitter:description" content="Define constraints. Discover behaviors. No programming required.">
+    <meta name="twitter:image" content="https://www.universalconstraintengine.net/assets/og_image.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -1008,7 +1020,7 @@
                     <div style="font-size: 0.9rem; color: var(--text-secondary);">Conserved Quantities</div>
                 </div>
                 <div>
-                    <div style="font-size: 2rem; font-weight: 800; color: var(--accent-purple); margin-bottom: 0.5rem;">18</div>
+                    <div style="font-size: 2rem; font-weight: 800; color: var(--accent-purple); margin-bottom: 0.5rem;">19</div>
                     <div style="font-size: 0.9rem; color: var(--text-secondary);">Constraint Rules</div>
                 </div>
                 <div>
@@ -1016,7 +1028,7 @@
                     <div style="font-size: 0.9rem; color: var(--text-secondary);">Valid System States</div>
                 </div>
                 <div>
-                    <div style="font-size: 2rem; font-weight: 800; color: var(--accent-orange); margin-bottom: 0.5rem;">18</div>
+                    <div style="font-size: 2rem; font-weight: 800; color: var(--accent-orange); margin-bottom: 0.5rem;">23</div>
                     <div style="font-size: 0.9rem; color: var(--text-secondary);">Emergent Behaviors</div>
                 </div>
             </div>
@@ -1054,7 +1066,7 @@
             </div>
             <div class="quantity q-L">
                 <span class="symbol">L</span>
-                <span class="name">Leak / Decay</span>
+                <span class="name">Learned / Cascade Entry</span>
             </div>
             <div class="quantity q-P">
                 <span class="symbol">P</span>
@@ -1076,16 +1088,16 @@
                         <li><strong>T (Threshold)</strong>: Threshold for activation</li>
                         <li><strong>F (Fire)</strong>: Output spike, action potential</li>
                         <li><strong>R (Refractory)</strong>: Refractory period, spike-timing constraint</li>
-                        <li><strong>L (Leak)</strong>: Leakage current, state decay</li>
+                        <li><strong>L (Learned)</strong>: Cascade entry, learned gating control</li>
                         <li><strong>P (Potentiation)</strong>: Synaptic strength, learning marker</li>
                     </ul>
                     <p style="margin-top: 1rem;">Constraint rules are applied over these quantities:</p>
                     <div class="code-block">
-allow_toggle: 6 rules (AND conjunction)<br/>
-forbid_toggle: 8 rules (OR disjunction)<br/>
+allow_toggle: 7 rules (OR disjunction — any allow rule enables the toggle)<br/>
+forbid_toggle: 8 rules (OR disjunction — any forbid rule blocks the toggle)<br/>
 forbid_simultaneous: 4 rules (mutual exclusion)
                     </div>
-                    <p>These 18 rules create a state transition graph with 45 reachable valid states out of 128 possible (2^7). The graph structure itself exhibits emergent computational properties.</p>
+                    <p>These 19 rules create a state transition graph with 45 reachable valid states out of 128 possible (2^7). The graph structure itself exhibits emergent computational properties.</p>
                 </div>
             </div>
         </div>
@@ -1102,8 +1114,8 @@ forbid_simultaneous: 4 rules (mutual exclusion)
         <div class="card-grid">
             <div class="card">
                 <h3 style="color: var(--accent-blue); margin-bottom: 0.5rem;">Allow Rules</h3>
-                <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">6 rules — AND conjunction</p>
-                <p>Define when a quantity <em>may</em> change. Multiple conditions must ALL be true. Create the gating network that chains quantities together into pathways.</p>
+                <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">7 rules — OR disjunction</p>
+                <p>Define when a quantity <em>may</em> change. Any satisfied allow rule enables the toggle. Create the gating network that chains quantities together into pathways.</p>
             </div>
             <div class="card">
                 <h3 style="color: var(--accent-orange); margin-bottom: 0.5rem;">Forbid Rules</h3>
@@ -1124,8 +1136,8 @@ forbid_simultaneous: 4 rules (mutual exclusion)
             </div>
             <div class="expandable-content">
                 <div class="expandable-content-inner">
-                    <h4>Allow Toggles (AND Conjunction)</h4>
-                    <p>A quantity's state change is allowed only if ALL specified conditions are met. Example: "E can toggle only if L is on AND R is off". This creates dependencies between quantities.</p>
+                    <h4>Allow Toggles (OR Disjunction)</h4>
+                    <p>A quantity's state change is allowed if ANY allow rule for that quantity is satisfied. Example: "E can toggle if L is on" OR "E can toggle if T is on". Any single satisfied allow rule enables the toggle. This creates flexible gating pathways.</p>
 
                     <h4>Forbid Toggles (OR Disjunction)</h4>
                     <p>A quantity's state change is forbidden if ANY specified condition is met. Example: "F cannot toggle if P is off OR I is on". This creates inhibitory safeguards.</p>
@@ -1138,9 +1150,9 @@ forbid_simultaneous: 4 rules (mutual exclusion)
                     <h4>Emergent Behaviors Found:</h4>
                     <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
                         <li><strong>Memory Elements (7)</strong>: Each quantity acts as a binary memory cell</li>
-                        <li><strong>Logic Gates (6)</strong>: Cascading pathways (L→E→T→F→P and L→R→I)</li>
-                        <li><strong>Oscillators (4)</strong>: Self-sustaining cycles (potentiation, sensitization)</li>
-                        <li><strong>Attractor Basin (9)</strong>: Stable equilibrium states</li>
+                        <li><strong>Logic Gates (7)</strong>: Cascading pathways (L→E→T→F→P and L→R→I)</li>
+                        <li><strong>Oscillators (8)</strong>: Self-sustaining cycles (potentiation, sensitization, and more)</li>
+                        <li><strong>Attractor Basin (1 with 12 states)</strong>: Stable equilibrium configurations</li>
                     </ul>
                 </div>
             </div>
@@ -1152,8 +1164,8 @@ forbid_simultaneous: 4 rules (mutual exclusion)
     <!-- Emergent Behaviors -->
     <section id="emergent" class="fade-in">
         <div class="section-label">What Emerges Automatically</div>
-        <h2>18 Behaviors. Zero Programming.</h2>
-        <p class="section-desc">The engine processes the 18 constraint rules over 7 quantities and discovers 18 distinct computational behaviors across four categories.</p>
+        <h2>23 Behaviors. Zero Programming.</h2>
+        <p class="section-desc">The engine processes the 19 constraint rules over 7 quantities and discovers 23 distinct computational behaviors across four categories.</p>
 
         <div class="card-grid">
             <div class="card">
@@ -1162,15 +1174,15 @@ forbid_simultaneous: 4 rules (mutual exclusion)
             </div>
             <div class="card">
                 <h3>It Makes Decisions</h3>
-                <p>A dual-pathway cascade emerges: excitation (L→E→T→F→P) and inhibition (L→R→I). Leak (L) acts as the master control for the entire neuron. Gating creates logic operations.</p>
+                <p>A dual-pathway cascade emerges: excitation (L→E→T→F→P) and inhibition (L→R→I). Learned (L) acts as the master control for the entire neuron. Gating creates logic operations.</p>
             </div>
             <div class="card">
                 <h3>It Creates Rhythms</h3>
-                <p>Four attractor cycles emerge as oscillatory patterns: potentiation oscillator, sensitization cycle, and more. These are self-sustaining excitation-learning feedback loops.</p>
+                <p>Eight oscillatory cycles emerge as self-sustaining patterns: potentiation oscillator, sensitization cycle, burst-fire loops, and more. These are excitation-learning feedback loops that arise entirely from the constraints.</p>
             </div>
             <div class="card">
                 <h3>It Finds Stable States</h3>
-                <p>Nine stable equilibrium states form an attractor basin. The neuron naturally settles into predictable resting configurations, providing the foundation for reliable computation.</p>
+                <p>A single attractor basin containing 12 stable equilibrium states emerges. The neuron naturally settles into predictable resting configurations, providing the foundation for reliable computation.</p>
             </div>
         </div>
 
@@ -1191,8 +1203,8 @@ forbid_simultaneous: 4 rules (mutual exclusion)
             <thead>
                 <tr>
                     <th>Feature</th>
-                    <th>Conventional Chip A</th>
-                    <th>Conventional Chip B</th>
+                    <th>Loihi 2 (Intel)</th>
+                    <th>TrueNorth (IBM)</th>
                     <th>CSEN (Ours)</th>
                 </tr>
             </thead>
@@ -1207,7 +1219,7 @@ forbid_simultaneous: 4 rules (mutual exclusion)
                     <td>Transistors/Neuron</td>
                     <td>~2,300</td>
                     <td>~5,400</td>
-                    <td>Target: < 100</td>
+                    <td>~300 (estimated)</td>
                 </tr>
                 <tr>
                     <td>Per-Neuron Memory</td>
@@ -1261,7 +1273,7 @@ forbid_simultaneous: 4 rules (mutual exclusion)
                 <div class="patent-status"><span class="dot" style="width:6px;height:6px;background:var(--accent-green);border-radius:50%;animation:pulse 2s infinite;display:inline-block;"></span> Patent Pending</div>
                 <h3>CSEN Neuromorphic Architecture</h3>
                 <p class="app-num">Application No. 64/039,741</p>
-                <p style="font-size:0.85rem; color:var(--text-muted); margin-top:0.5rem;">Constraint-driven self-emergent neuron architecture for neuromorphic computing with 7-quantity, 18-rule design.</p>
+                <p style="font-size:0.85rem; color:var(--text-muted); margin-top:0.5rem;">Constraint-driven self-emergent neuron architecture for neuromorphic computing with 7-quantity, 19-rule design producing 23 emergent behaviors.</p>
             </div>
         </div>
     </section>
@@ -1311,6 +1323,16 @@ forbid_simultaneous: 4 rules (mutual exclusion)
         <div class="entity">Bee Tree Holdings LLC</div>
         <p>&copy; 2026 Bee Tree Holdings LLC. All rights reserved. Patent pending.</p>
         <p style="margin-top:0.5rem;">Inventor: Stephen Clark Kinney</p>
+        <p style="margin-top:0.75rem;">
+            <a href="mailto:btreeholdings@gmail.com" style="color: var(--text-muted); text-decoration: none;">btreeholdings@gmail.com</a>
+            &nbsp;&bull;&nbsp;
+            <a href="https://x.com/UCEngine" target="_blank" style="color: var(--text-muted); text-decoration: none;">@UCEngine</a>
+        </p>
+        <p style="margin-top:0.5rem; font-size: 0.75rem;">
+            <a href="privacy.html" style="color: var(--text-muted); text-decoration: none;">Privacy Policy</a>
+            &nbsp;&bull;&nbsp;
+            <a href="terms.html" style="color: var(--text-muted); text-decoration: none;">Terms of Service</a>
+        </p>
     </footer>
 
     <script>
