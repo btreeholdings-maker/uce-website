@@ -5,9 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UCE Live Demo — Universal Constraint Engine</title>
 <meta name="description" content="Interactive constraint solver demo. Define rules, discover emergent computational behaviors. No server required — runs entirely in your browser.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Self-hosted fonts (GDPR-compliant — no third-party data transfer) -->
+<style>
+        @font-face { font-family: 'Inter'; font-style: normal; font-weight: 300; font-display: swap; src: url(assets/fonts/inter-300.ttf) format('truetype'); }
+        @font-face { font-family: 'Inter'; font-style: normal; font-weight: 400; font-display: swap; src: url(assets/fonts/inter-400.ttf) format('truetype'); }
+        @font-face { font-family: 'Inter'; font-style: normal; font-weight: 500; font-display: swap; src: url(assets/fonts/inter-500.ttf) format('truetype'); }
+        @font-face { font-family: 'Inter'; font-style: normal; font-weight: 600; font-display: swap; src: url(assets/fonts/inter-600.ttf) format('truetype'); }
+        @font-face { font-family: 'Inter'; font-style: normal; font-weight: 700; font-display: swap; src: url(assets/fonts/inter-700.ttf) format('truetype'); }
+        @font-face { font-family: 'Inter'; font-style: normal; font-weight: 800; font-display: swap; src: url(assets/fonts/inter-800.ttf) format('truetype'); }
+        @font-face { font-family: 'Inter'; font-style: normal; font-weight: 900; font-display: swap; src: url(assets/fonts/inter-900.ttf) format('truetype'); }
+        @font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 400; font-display: swap; src: url(assets/fonts/jetbrainsmono-400.ttf) format('truetype'); }
+        @font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 500; font-display: swap; src: url(assets/fonts/jetbrainsmono-500.ttf) format('truetype'); }
+        @font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 600; font-display: swap; src: url(assets/fonts/jetbrainsmono-600.ttf) format('truetype'); }
+</style>
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -67,7 +77,7 @@ nav {
 .app {
   display: grid;
   grid-template-columns: 420px 1fr;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto 1fr auto;
   height: 100vh;
   padding-top: 57px;
 }
@@ -773,6 +783,12 @@ document.addEventListener('DOMContentLoaded', () => {
       setStatus('done', 'Preset loaded: ' + PRESETS[this.value].name);
     }
   });
+
+  // Auto-load CSO preset and solve so first-time visitors see results immediately
+  const sel = document.getElementById('example-select');
+  sel.value = 'cso';
+  document.getElementById('ruleset-input').value = JSON.stringify(PRESETS.cso, null, 2);
+  setTimeout(() => runSolve(), 100);
 });
 
 function initGraph() {
@@ -961,6 +977,7 @@ function renderGraph(result) {
     minNodeSpacing: 40,
     animate: true,
     animationDuration: 400,
+    stop: () => { cy.fit(cy.elements(), 40); },
   }).run();
 }
 
